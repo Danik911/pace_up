@@ -4,7 +4,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:pace_up/data/local/models/sneakers.dart';
+import 'package:pace_up/domain/entities/item.dart';
 
 import '../../../data/local/boxes/sneakers_boxes.dart';
 

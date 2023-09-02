@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pace_up/data/local/models/sneakers.dart';
-import 'package:pace_up/presentation/screens/list_screen/list_screen.dart';
+import 'package:pace_up/domain/entities/item.dart';
+import 'package:pace_up/presentation/screens/list_screen/home_screen.dart';
 
 import 'data/local/boxes/sneakers_boxes.dart';
 
