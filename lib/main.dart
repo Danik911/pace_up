@@ -11,7 +11,7 @@ void main() async {
   //   hive initialization
   await Hive.initFlutter();
   Hive.registerAdapter(SneakersAdapter());
-  await Hive.openBox<Sneakers>(HiveBoxes.sneakers);
+  await Hive.openBox<Sneakers>(HiveBoxes.items);
   runApp(MyApp());
 }
 

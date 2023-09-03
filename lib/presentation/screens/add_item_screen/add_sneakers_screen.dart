@@ -113,7 +113,7 @@ class _AddSneakersScreenState extends State<AddSneakersScreen> {
   }
 
   void _onFormSubmit() {
-    Box<Sneakers> contactsBox = Hive.box<Sneakers>(HiveBoxes.sneakers);
+    Box<Sneakers> contactsBox = Hive.box<Sneakers>(HiveBoxes.items);
     contactsBox.add(Sneakers(title: title, description: description, size: size));
     Navigator.of(context).pop();
   }

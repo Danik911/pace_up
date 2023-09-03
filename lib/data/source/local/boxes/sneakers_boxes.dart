@@ -1,3 +1,3 @@
 class HiveBoxes {
-  static String sneakers = 'sneakers_box';
+  static String items = 'item_box';
 }
