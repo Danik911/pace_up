@@ -1,32 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pace_up/domain/entities/item.dart';
-import 'package:pace_up/presentation/screens/list_screen/home_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pace_up/app.dart';
+import 'package:pace_up/data/repositories/item_repository.dart';
+import 'package:pace_up/presentation/theme/theme_cubit.dart';
+import 'package:pace_up/states/item/item_bloc.dart';
 
-import 'data/local/boxes/sneakers_boxes.dart';
+import 'data/source/local/local_data_source.dart';
 
 
-// void main() => runApp(MyApp());
 void main() async {
-  //   hive initialization
-  await Hive.initFlutter();
-  Hive.registerAdapter(SneakersAdapter());
-  await Hive.openBox<Sneakers>(HiveBoxes.items);
-  runApp(MyApp());
-}
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-  static final String title = 'Pace Up';
+  await LocalDataSource.initialize();
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home: ListScreen(
-        title: 'Pace Up',
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        ///
+        /// Services
+        ///
+
+        ///
+        /// Data sources
+        ///
+        RepositoryProvider<LocalDataSource>(
+          create: (context) => LocalDataSource(),
+        ),
+
+        ///
+        /// Repositories
+        ///
+        RepositoryProvider<ItemRepository>(
+          create: (context) => ItemDefaultRepository(
+            localDataSource: context.read<LocalDataSource>(),
+          ),
+        ),
+
+        RepositoryProvider<ItemRepository>(
+          create: (context) => ItemDefaultRepository(
+            localDataSource: context.read<LocalDataSource>(),
+          ),
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          ///
+          /// BLoCs
+          ///
+          BlocProvider<ItemBloc>(
+            create: (context) => ItemBloc(context.read<ItemRepository>()),
+          ),
+          BlocProvider<ItemBloc>(
+            create: (context) => ItemBloc(context.read<ItemRepository>()),
+          ),
+
+          ///
+          /// Theme Cubit
+          ///
+          BlocProvider<ThemeCubit>(
+            create: (context) => ThemeCubit(),
+          )
+        ],
+        child: const MyApp(),
       ),
-    );
-  }
+    ),
+  );
 }

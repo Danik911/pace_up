@@ -30,6 +30,12 @@ class LocalDataSource {
     await itemBox.putAll(itemsMap);
   }
 
+  Future<ItemHiveModel?> getItem(String number) async {
+    final itemBox = Hive.box<ItemHiveModel>(ItemHiveModel.boxKey);
+
+    return itemBox.get(number);
+  }
+
   Future<List<ItemHiveModel>> getAllItems() async {
     final itemBox = Hive.box<ItemHiveModel>(ItemHiveModel.boxKey);
 

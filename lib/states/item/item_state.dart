@@ -1,5 +1,5 @@
 
-import '../domain/entities/item.dart';
+import '../../domain/entities/item.dart';
 
 enum ItemStateStatus {
   initial,

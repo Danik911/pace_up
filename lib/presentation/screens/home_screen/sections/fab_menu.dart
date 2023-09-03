@@ -1,4 +1,5 @@
 part of '../pokedex.dart';
+/*
 
 class _FabMenu extends StatefulWidget {
   const _FabMenu();
@@ -108,3 +109,4 @@ class _FabMenuState extends State<_FabMenu> with SingleTickerProviderStateMixin 
     );
   }
 }
+*/

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class AppColors {
   static const Color beige = Color(0xFFA8A878);

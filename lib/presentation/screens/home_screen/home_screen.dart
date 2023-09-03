@@ -1,31 +1,37 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:pace_up/domain/entities/item.dart';
-
-import '../../../data/local/boxes/sneakers_boxes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pace_up/presentation/screens/home_screen/widgets/main_app_bar.dart';
+import 'package:pace_up/presentation/widgets/item_screen_background.dart';
+import '../../../../domain/entities/item.dart';
+import '../../../../states/item/item_bloc.dart';
+import '../../../../states/item/item_event.dart';
+import '../../../../states/item/item_selector.dart';
+import '../../../../states/item/item_state.dart';
+import '../../../configs/images.dart';
 import '../../widgets/item_card.dart';
-import '../add_item_screen/add_sneakers_screen.dart';
+import '../../widgets/item_refresh_control.dart';
 
+part 'sections/items_grid.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class ItemsScreen extends StatefulWidget {
+  const ItemsScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _HomeScreenState();
+  State<StatefulWidget> createState() => _ItemsScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ItemsScreenState extends State<ItemsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const PokeballBackground(
+    return const ItemScreenBackground(
       child: Stack(
         children: [
           _ItemsGrid(),
-          //_FabMenu(),TODO("add FAB menu")
+          //_FabMenu(),
         ],
       ),
     );
   }
 }
+

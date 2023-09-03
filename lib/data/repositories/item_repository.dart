@@ -52,14 +52,10 @@ class ItemDefaultRepository extends ItemRepository {
   @override
   Future<Item?> getItem(String number) async {
     final itemModel = await localDataSource.getItem(number);
-
     if (itemModel == null) return null;
+    final item = itemModel.toEntity();
 
-    // get all evolutions
-    final evolutions = await localDataSource.getEvolutions(itemModel);
 
-    final pokemon = itemModel.toEntity(evolutions: evolutions);
-
-    return pokemon;
+    return item;
   }
 }

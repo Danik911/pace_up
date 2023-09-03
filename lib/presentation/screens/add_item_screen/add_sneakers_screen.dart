@@ -1,13 +1,10 @@
-
-
-
+/*
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:pace_up/domain/entities/item.dart';
 
-import '../../../data/local/boxes/sneakers_boxes.dart';
-
+import '../../../data/source/local/boxes/item_boxes.dart';
 
 class AddSneakersScreen extends StatefulWidget {
   AddSneakersScreen({Key? key}) : super(key: key);
@@ -46,8 +43,6 @@ class _AddSneakersScreenState extends State<AddSneakersScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-
                 TextFormField(
                   autofocus: true,
                   initialValue: '',
@@ -97,7 +92,6 @@ class _AddSneakersScreenState extends State<AddSneakersScreen> {
                     return null;
                   },
                 ),
-
                 ElevatedButton(
                   onPressed: () {
                     validated();
@@ -113,8 +107,10 @@ class _AddSneakersScreenState extends State<AddSneakersScreen> {
   }
 
   void _onFormSubmit() {
-    Box<Sneakers> contactsBox = Hive.box<Sneakers>(HiveBoxes.items);
-    contactsBox.add(Sneakers(title: title, description: description, size: size));
+    Box<Item> contactsBox = Hive.box<Item>(HiveBoxes.items);
+    contactsBox.add(Item(
+        number: title, description: description, name: size, image: image));
     Navigator.of(context).pop();
   }
 }
+*/

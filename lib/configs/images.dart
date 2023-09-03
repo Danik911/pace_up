@@ -7,15 +7,15 @@ class _Image extends AssetImage {
 }
 
 class AppImages {
-  static const bulbasaur = _Image('bulbasaur.png');
-  static const charmander = _Image('charmander.png');
-  static const squirtle = _Image('squirtle.png');
-  static const pokeball = _Image('pokeball.png');
-  static const male = _Image('male.png');
-  static const female = _Image('female.png');
-  static const dotted = _Image('dotted.png');
-  static const thumbnail = _Image('thumbnail.png');
-  static const pikloader = _Image('pika_loader.gif');
+  static const bulbasaur = _Image('1.png');
+  static const charmander = _Image('2.png');
+  static const squirtle = _Image('3.png');
+  static const pokeball = _Image('3.png');
+  static const male = _Image('4.png');
+  static const female = _Image('5.png');
+  static const dotted = _Image('6.png');
+  static const thumbnail = _Image('7.png');
+  static const pikloader = _Image('8.gif');
 
   static Future precacheAssets(BuildContext context) async {
     await precacheImage(bulbasaur, context);

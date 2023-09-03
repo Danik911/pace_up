@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../domain/entities/item.dart';
-import '../../../configs/colors.dart';
-import '../../../configs/images.dart';
+import '../../../../configs/images.dart';
 import '../../../theme/theme_cubit.dart';
+/*
 
 class GenerationCard extends StatelessWidget {
   const GenerationCard(this.sneakers, {super.key});
@@ -79,3 +79,4 @@ class GenerationCard extends StatelessWidget {
     });
   }
 }
+*/

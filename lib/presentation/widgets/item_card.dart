@@ -1,29 +1,126 @@
 import 'package:flutter/material.dart';
+import '../../configs/colors.dart';
+import '../../domain/entities/item.dart';
+import 'item_image.dart';
 
 
-/// An example of the elevated card type.
-///
-/// The default settings for [Card] will provide an elevated
-/// card matching the spec:
-///
-/// https://m3.material.io/components/cards/specs#a012d40d-7a5c-4b07-8740-491dec79d58b
-class ElevatedCard extends StatelessWidget {
-  const ElevatedCard({super.key});
+
+class ItemCard extends StatelessWidget {
+  static const double _circleFraction = 0.75;
+  static const double _itemFraction = 0.76;
+
+  final Item item;
+  final void Function()? onPress;
+
+  const ItemCard(
+      this.item, {super.key,
+        this.onPress,
+      });
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Card(
-        child: SizedBox(
-          width: 300,
-          height: 100,
-          child: Center(
-              child: Text('Elevated Card')
+    return LayoutBuilder(
+      builder: (context, constrains) {
+        final itemHeight = constrains.maxHeight;
+
+        return Container(
+          decoration: BoxDecoration(
+            color: AppColors.purple,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.lightPurple.withOpacity(0.4),
+                blurRadius: 15,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Material(
+              color: AppColors.purple,
+              child: InkWell(
+                onTap: onPress,
+                splashColor: Colors.white10,
+                highlightColor: Colors.white10,
+                child: Stack(
+                  children: [
+                    _buildItem(height: itemHeight),
+                    _buildItemNumber(),
+                    _CardContent(item),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
+  Widget _buildItem({required double height}) {
+    final itemSize = height * _itemFraction;
+
+    return Positioned(
+      bottom: -2,
+      right: 2,
+      child: ItemImage(
+        size: Size.square(itemSize),
+        item: item,
+      ),
+    );
+  }
+
+  Widget _buildItemNumber() {
+    return Positioned(
+      top: 10,
+      right: 14,
+      child: Text(
+        item.number,
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          color: Colors.black12,
         ),
       ),
     );
   }
 }
 
+class _CardContent extends StatelessWidget {
+  final Item item;
 
+  const _CardContent(this.item, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Hero(
+              tag: item.number + item.name,
+              child: Text(
+                item.name,
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 0.7,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.background,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
+    );
+  }
+
+}

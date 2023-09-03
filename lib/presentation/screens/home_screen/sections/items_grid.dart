@@ -1,6 +1,5 @@
-part of '../pokedex.dart';
+part of '../home_screen.dart';
 
-import 'package:flutter/cupertino.dart';
 
 class _ItemsGrid extends StatefulWidget {
   const _ItemsGrid();
@@ -14,14 +13,14 @@ class _ItemsGridState extends State<_ItemsGrid> {
 
   final GlobalKey<NestedScrollViewState> _scrollKey = GlobalKey();
 
-  PokemonBloc get pokemonBloc => context.read<PokemonBloc>();
+  ItemBloc get itemBloc => context.read<ItemBloc>();
 
   @override
   void initState() {
     super.initState();
 
     scheduleMicrotask(() {
-      pokemonBloc.add(const PokemonLoadStarted());
+      itemBloc.add(const ItemLoadStarted());
       _scrollKey.currentState?.innerController.addListener(_onScroll);
     });
   }
@@ -39,47 +38,50 @@ class _ItemsGridState extends State<_ItemsGrid> {
 
     if (innerController == null || !innerController.hasClients) return;
 
-    final thresholdReached = innerController.position.extentAfter < _endReachedThreshold;
+    final thresholdReached = innerController.position.extentAfter <
+        _endReachedThreshold;
 
     if (thresholdReached) {
       // Load more!
-      pokemonBloc.add(PokemonLoadMoreStarted());
+      itemBloc.add(ItemLoadMoreStarted());
     }
   }
 
   Future _onRefresh() async {
-    pokemonBloc.add(const PokemonLoadStarted());
+    itemBloc.add(const ItemLoadStarted());
 
-    return pokemonBloc.stream.firstWhere((e) => e.status != PokemonStateStatus.loading);
+    return itemBloc.stream.firstWhere((e) =>
+    e.status != ItemStateStatus.loading);
   }
 
-  void _onPokemonPress(Pokemon pokemon) {
-    pokemonBloc.add(PokemonSelectChanged(itemId: pokemon.number));
-
-    AppNavigator.push(Routes.pokemonInfo, pokemon);
+  void _onItemPress(Item item) {
+    itemBloc.add(ItemSelectChanged(itemId: item.number));
+//TODO("Add navigation when item pressed")
+    //AppNavigator.push(Routes.newScreen, item);
   }
 
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
       key: _scrollKey,
-      headerSliverBuilder: (_, __) => [
+      headerSliverBuilder: (_, __) =>
+      [
         MainSliverAppBar(
           context: context,
         ),
       ],
-      body: PokemonStateStatusSelector((status) {
+      body: ItemStateStatusSelector((status) {
         switch (status) {
-          case PokemonStateStatus.loading:
+          case ItemStateStatus.loading:
             return _buildLoading();
 
-          case PokemonStateStatus.loadSuccess:
-          case PokemonStateStatus.loadMoreSuccess:
-          case PokemonStateStatus.loadingMore:
+          case ItemStateStatus.loadSuccess:
+          case ItemStateStatus.loadMoreSuccess:
+          case ItemStateStatus.loadingMore:
             return _buildGrid();
 
-          case PokemonStateStatus.loadFailure:
-          case PokemonStateStatus.loadMoreFailure:
+          case ItemStateStatus.loadFailure:
+          case ItemStateStatus.loadMoreFailure:
             return _buildError();
 
           default:
@@ -98,10 +100,10 @@ class _ItemsGridState extends State<_ItemsGrid> {
   Widget _buildGrid() {
     return CustomScrollView(
       slivers: [
-        PokemonRefreshControl(onRefresh: _onRefresh),
+        ItemRefreshControl(onRefresh: _onRefresh),
         SliverPadding(
           padding: const EdgeInsets.all(28),
-          sliver: NumberOfPokemonsSelector((numberOfPokemons) {
+          sliver: NumberOfItemsSelector((numberOfItems) {
             return SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -110,21 +112,21 @@ class _ItemsGridState extends State<_ItemsGrid> {
                 mainAxisSpacing: 10,
               ),
               delegate: SliverChildBuilderDelegate(
-                (_, index) {
-                  return PokemonSelector(index, (pokemon, _) {
-                    return PokemonCard(
-                      pokemon,
-                      onPress: () => _onPokemonPress(pokemon),
+                    (_, index) {
+                  return ItemSelector(index, (item, _) {
+                    return ItemCard(
+                      item,
+                      onPress: () => _onItemPress(item),
                     );
                   });
                 },
-                childCount: numberOfPokemons,
+                childCount: numberOfItems,
               ),
             );
           }),
         ),
         SliverToBoxAdapter(
-          child: PokemonCanLoadMoreSelector((canLoadMore) {
+          child: ItemCanLoadMoreSelector((canLoadMore) {
             if (!canLoadMore) {
               return const SizedBox.shrink();
             }
@@ -143,7 +145,7 @@ class _ItemsGridState extends State<_ItemsGrid> {
   Widget _buildError() {
     return CustomScrollView(
       slivers: [
-        PokemonRefreshControl(onRefresh: _onRefresh),
+        ItemRefreshControl(onRefresh: _onRefresh),
         SliverFillRemaining(
           child: Container(
             padding: const EdgeInsets.only(bottom: 28),
