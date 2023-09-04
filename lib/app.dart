@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:pace_up/configs/theme.dart';
 import 'package:pace_up/presentation/theme/theme_cubit.dart';
+import 'package:pace_up/routes.dart';
 import 'configs/constants.dart';
 
 
@@ -27,10 +28,10 @@ class MyApp extends StatelessWidget {
       builder: (context) {
         return MaterialApp(
           color: Colors.white,
-          title: 'Flutter Pokedex',
+          title: 'Pace UP',
           theme: isDark ? AppTheme.darkTheme : AppTheme.lightTheme,
-          //navigatorKey: AppNavigator.navigatorKey,
-          //onGenerateRoute: AppNavigator.onGenerateRoute,
+          navigatorKey: AppNavigator.navigatorKey,
+          onGenerateRoute: AppNavigator.onGenerateRoute,
           builder: (context, child) {
             if (child == null) return const SizedBox.shrink();
 

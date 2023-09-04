@@ -1,8 +1,12 @@
 
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:pace_up/data/source/local/models/item.dart';
+import 'package:pace_up/domain/entities/item.dart';
+
+import '../../../configs/images.dart';
 
 class LocalDataSource {
 
@@ -59,4 +63,45 @@ class LocalDataSource {
 
     return items;
   }
+
+  final listOfItemsForTesting = [
+    Item(
+      number: "1",
+      name: "test",
+      description: "some dummy text",
+      image: 'assets/images/litten.png'
+    ),
+  Item(
+      number: "1",
+      name: "test",
+      description: "some dummy text",
+      image: 'assets/images/1.jpg'
+    ),
+  Item(
+      number: "1",
+      name: "test",
+      description: "some dummy text",
+      image: 'assets/images/1.jpg'
+    ),
+  Item(
+      number: "1",
+      name: "test",
+      description: "some dummy text",
+      image: 'assets/images/1.jpg'
+    ),
+  Item(
+      number: "1",
+      name: "test",
+      description: "some dummy text",
+      image: 'assets/images/1.jpg'
+    ),
+  Item(
+      number: "1",
+      name: "test",
+      description: "some dummy text",
+      image: 'assets/images/1.jpg'
+    ),
+
+  ];
+
 }

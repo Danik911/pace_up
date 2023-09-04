@@ -15,7 +15,7 @@ class ItemRefreshControl extends StatelessWidget {
     return CupertinoSliverRefreshControl(
       onRefresh: onRefresh,
       builder: (_, __, ___, ____, _____) => const Image(
-        image: AppImages.pikloader,
+        image: AppImages.model_9,
       ),
     );
   }

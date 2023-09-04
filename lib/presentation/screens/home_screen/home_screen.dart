@@ -14,14 +14,14 @@ import '../../widgets/item_refresh_control.dart';
 
 part 'sections/items_grid.dart';
 
-class ItemsScreen extends StatefulWidget {
-  const ItemsScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ItemsScreenState();
+  State<StatefulWidget> createState() => _HomeScreenState();
 }
 
-class _ItemsScreenState extends State<ItemsScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return const ItemScreenBackground(

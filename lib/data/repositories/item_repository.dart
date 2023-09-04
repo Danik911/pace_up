@@ -18,7 +18,7 @@ class ItemDefaultRepository extends ItemRepository {
 
   @override
   Future<List<Item>> getAllItems() async {
-    final hasCachedData = await localDataSource.hasData();
+/*    final hasCachedData = await localDataSource.hasData();
 
     if (!hasCachedData) {
       //TODO("here you can add models fetched from API and save them into DB")
@@ -27,14 +27,14 @@ class ItemDefaultRepository extends ItemRepository {
 
     final itemHiveModels = await localDataSource.getAllItems();
 
-    final itemEntities = itemHiveModels.map((e) => e.toEntity()).toList();
+    final itemEntities = itemHiveModels.map((e) => e.toEntity()).toList();*/
 
-    return itemEntities;
+    return localDataSource.listOfItemsForTesting;
   }
 
   @override
   Future<List<Item>> getItems({required int limit, required int page}) async {
-    final hasCachedData = await localDataSource.hasData();
+    /*final hasCachedData = await localDataSource.hasData();
 
     if (!hasCachedData) {
       //TODO("here you can add models fetched from API and save them into DB")
@@ -44,9 +44,9 @@ class ItemDefaultRepository extends ItemRepository {
       page: page,
       limit: limit,
     );
-    final itemEntities = itemHiveModels.map((e) => e.toEntity()).toList();
+    final itemEntities = itemHiveModels.map((e) => e.toEntity()).toList();*/
 
-    return itemEntities;
+    return localDataSource.listOfItemsForTesting;
   }
 
   @override

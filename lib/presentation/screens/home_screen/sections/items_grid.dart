@@ -93,7 +93,7 @@ class _ItemsGridState extends State<_ItemsGrid> {
 
   Widget _buildLoading() {
     return const Center(
-      child: Image(image: AppImages.pikloader),
+      child: Image(image: AppImages.model_9),
     );
   }
 
@@ -134,7 +134,7 @@ class _ItemsGridState extends State<_ItemsGrid> {
             return Container(
               padding: const EdgeInsets.only(bottom: 28),
               alignment: Alignment.center,
-              child: const Image(image: AppImages.pikloader),
+              child: const Image(image: AppImages.model_9),
             );
           }),
         ),

@@ -42,7 +42,7 @@ class ItemScreenBackground extends StatelessWidget {
             top: pokeballTopMargin,
             right: pokeballRightMargin,
             child: Image(
-              image: AppImages.pokeball,
+              image: AppImages.model_4,
               width: pokeballSize,
               height: pokeballSize,
               color: !isDark ? AppColors.whiteGrey : Colors.black.withOpacity(0.05),

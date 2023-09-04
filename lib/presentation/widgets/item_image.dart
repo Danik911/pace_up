@@ -20,7 +20,7 @@ class ItemImage extends StatelessWidget {
     required this.size,
     this.padding = EdgeInsets.zero,
     this.useItem = true,
-    this.placeholder = AppImages.bulbasaur,
+    this.placeholder = AppImages.model_1,
     this.tintColor,
   }) : super(key: key);
 
