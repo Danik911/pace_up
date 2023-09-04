@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../utils/size.dart';
+import '../../utils/size.dart';
 
 const double mainAppbarPadding = 28;
 

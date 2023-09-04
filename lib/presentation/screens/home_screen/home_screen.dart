@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pace_up/presentation/screens/home_screen/widgets/main_app_bar.dart';
+import 'package:pace_up/presentation/widgets/main_app_bar.dart';
 import 'package:pace_up/presentation/widgets/item_screen_background.dart';
 import '../../../../domain/entities/item.dart';
 import '../../../../states/item/item_bloc.dart';

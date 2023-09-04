@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../configs/colors.dart';
 import '../../configs/images.dart';
-import '../screens/home_screen/widgets/main_app_bar.dart';
+import 'main_app_bar.dart';
 import '../theme/theme_cubit.dart';
 
 class ItemScreenBackground extends StatelessWidget {

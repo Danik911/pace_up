@@ -25,11 +25,11 @@ class ItemCard extends StatelessWidget {
 
         return Container(
           decoration: BoxDecoration(
-            color: AppColors.purple,
+            color: AppColors.darkBrown,
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: AppColors.lightPurple.withOpacity(0.4),
+                color: AppColors.beige.withOpacity(0.4),
                 blurRadius: 15,
                 offset: const Offset(0, 8),
               ),
@@ -82,7 +82,7 @@ class ItemCard extends StatelessWidget {
         style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
-          color: Colors.black12,
+          color: Colors.amber,
         ),
       ),
     );

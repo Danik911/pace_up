@@ -1,4 +1,3 @@
-part of '../pokedex.dart';
 /*
 
 class _FabMenu extends StatefulWidget {
