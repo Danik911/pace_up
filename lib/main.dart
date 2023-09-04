@@ -7,7 +7,6 @@ import 'package:pace_up/states/item/item_bloc.dart';
 
 import 'data/source/local/local_data_source.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -19,7 +18,7 @@ void main() async {
         ///
         /// Services
         ///
-
+       //TODO("Add Network Manager ")
         ///
         /// Data sources
         ///
@@ -30,15 +29,11 @@ void main() async {
         ///
         /// Repositories
         ///
+        //TODO("Add Network DataSource")
         RepositoryProvider<ItemRepository>(
           create: (context) => ItemDefaultRepository(
             localDataSource: context.read<LocalDataSource>(),
-          ),
-        ),
 
-        RepositoryProvider<ItemRepository>(
-          create: (context) => ItemDefaultRepository(
-            localDataSource: context.read<LocalDataSource>(),
           ),
         ),
       ],
@@ -47,9 +42,6 @@ void main() async {
           ///
           /// BLoCs
           ///
-          BlocProvider<ItemBloc>(
-            create: (context) => ItemBloc(context.read<ItemRepository>()),
-          ),
           BlocProvider<ItemBloc>(
             create: (context) => ItemBloc(context.read<ItemRepository>()),
           ),
