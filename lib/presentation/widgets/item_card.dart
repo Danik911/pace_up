@@ -78,7 +78,7 @@ class ItemCard extends StatelessWidget {
       top: 10,
       right: 14,
       child: Text(
-        item.number,
+        item.id,
         style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
@@ -105,7 +105,7 @@ class _CardContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Hero(
-              tag: item.number + item.name,
+              tag: item.id + item.name,
               child: Text(
                 item.name,
                 style: TextStyle(

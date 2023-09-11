@@ -1,7 +1,7 @@
 import 'dart:math';
+
 import 'package:hive_flutter/adapters.dart';
 import 'package:pace_up/data/source/local/models/item.dart';
-import 'package:pace_up/domain/entities/item.dart';
 
 class LocalDataSource {
   static Future<void> initialize() async {
@@ -58,46 +58,48 @@ class LocalDataSource {
     return items;
   }
 
-  final listOfItemsForTesting = [
+/*  final listOfItemsForTesting = [
     Item(
-        number: "9",
+        id: "9",
         name: "test9",
         description: "some dummy text",
-        image: 'assets/images/9.jpg'),
+        image: 'assets/images/9.jpg',
+        size: ''
+    ),
     Item(
-        number: "2",
+        id: "2",
         name: "test2",
         description: "some dummy text",
         image: 'assets/images/2.jpg'),
     Item(
-        number: "3",
+        id: "3",
         name: "test3",
         description: "some dummy text",
         image: 'assets/images/3.jpg'),
     Item(
-        number: "4",
+        id: "4",
         name: "test4",
         description: "some dummy text",
         image: 'assets/images/4.jpg'),
     Item(
-        number: "6",
+        id: "6",
         name: "test6",
         description: "some dummy text",
         image: 'assets/images/6.jpg'),
     Item(
-        number: "7",
+        id: "7",
         name: "test7",
         description: "some dummy text",
         image: 'assets/images/7.jpg'),
     Item(
-        number: "8",
+        id: "8",
         name: "test6",
         description: "some dummy text",
         image: 'assets/images/8.jpg'),
     Item(
-        number: "10",
+        id: "10",
         name: "test10",
         description: "some dummy text",
         image: 'assets/images/10.jpg'),
-  ];
+  ]*/
 }

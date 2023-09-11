@@ -4,11 +4,11 @@ import '../local/models/item.dart';
 extension ItemHiveModelX on ItemHiveModel {
   Item toEntity() => Item(
 
-    number: number.trim() ?? '',
+    id: id.trim() ?? '',
     name: name.trim() ?? '',
     description: description.trim() ?? '',
     image: image.trim() ?? '',
-
+    size: size.trim() ?? '',
   );
 }
 

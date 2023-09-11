@@ -59,7 +59,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
   void _onSelectChanged(ItemSelectChanged event, Emitter<ItemState> emit) async {
     try {
       final itemIndex = state.items.indexWhere(
-            (item) => item.number == event.itemId,
+            (item) => item.id == event.itemId,
       );
 
       if (itemIndex < 0 || itemIndex >= state.items.length) return;

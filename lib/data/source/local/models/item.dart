@@ -9,7 +9,7 @@ class ItemHiveModel extends HiveObject {
   static const String boxKey = 'item';
 
   @HiveField(0)
-  late String number;
+  late String id;
 
   @HiveField(1)
   late String name;
@@ -19,5 +19,8 @@ class ItemHiveModel extends HiveObject {
 
   @HiveField(3)
   late String image;
+
+  @HiveField(4)
+  late String size;
 
 }
