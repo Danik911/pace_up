@@ -3,8 +3,6 @@ import '../../configs/colors.dart';
 import '../../domain/entities/item.dart';
 import 'item_image.dart';
 
-
-
 class ItemCard extends StatelessWidget {
   static const double _circleFraction = 0.75;
   static const double _itemFraction = 0.76;
@@ -13,9 +11,10 @@ class ItemCard extends StatelessWidget {
   final void Function()? onPress;
 
   const ItemCard(
-      this.item, {super.key,
-        this.onPress,
-      });
+    this.item, {
+    super.key,
+    this.onPress,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +56,6 @@ class ItemCard extends StatelessWidget {
       },
     );
   }
-
-
 
   Widget _buildItem({required double height}) {
     final itemSize = height * _itemFraction;
@@ -122,5 +119,4 @@ class _CardContent extends StatelessWidget {
       ),
     );
   }
-
 }

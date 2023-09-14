@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../configs/images.dart';
@@ -34,13 +35,45 @@ class ItemImage extends StatelessWidget {
           duration: const Duration(milliseconds: 600),
           curve: Curves.easeOutQuint,
           padding: padding,
-          child: Image.asset(
-            item.image,
-            width: size.width,
-            height: size.height,
-            alignment: Alignment.bottomCenter,
-            color: tintColor,
-            fit: BoxFit.contain,
+          child: CachedNetworkImage(
+            imageUrl: item.image,
+            useOldImageOnUrlChange: true,
+            maxWidthDiskCache: _cacheMaxSize.width.toInt(),
+            maxHeightDiskCache: _cacheMaxSize.height.toInt(),
+            fadeInDuration: const Duration(milliseconds: 120),
+            fadeOutDuration: const Duration(milliseconds: 120),
+            imageBuilder: (_, image) => Image(
+              image: image,
+              width: size.width,
+              height: size.height,
+              alignment: Alignment.bottomCenter,
+              color: tintColor,
+              fit: BoxFit.contain,
+            ),
+            placeholder: (_, __) => Image(
+              image: placeholder,
+              width: size.width,
+              height: size.height,
+              alignment: Alignment.bottomCenter,
+              color: Colors.black12,
+              fit: BoxFit.contain,
+            ),
+            errorWidget: (_, __, ___) => Stack(
+              alignment: Alignment.center,
+              children: [
+                Image(
+                  image: placeholder,
+                  width: size.width,
+                  height: size.height,
+                  color: Colors.black12,
+                ),
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: size.width * 0.3,
+                  color: Colors.black26,
+                ),
+              ],
+            ),
           ),
         ),
       ),

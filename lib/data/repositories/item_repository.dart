@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:pace_up/data/source/api/github_data_source.dart';
 import 'package:pace_up/data/source/local/local_data_source.dart';
 import 'package:pace_up/data/source/mappers/hive_item_model_to_entity.dart';
@@ -25,14 +26,15 @@ class ItemDefaultRepository extends ItemRepository {
 
     if (!hasCachedData) {
       final itemGithubModels = await remoteDataSource.getItems();
-      final itemHiveModels = itemGithubModels.map((e) => e.toHiveModel());
+      final itemHiveModels = itemGithubModels?.map((e) => e.toHiveModel());
 
-      await localDataSource.saveItems(itemHiveModels);
+      await localDataSource.saveItems(itemHiveModels!);
     }
 
     final itemHiveModels = await localDataSource.getAllItems();
 
     final itemEntities = itemHiveModels.map((e) => e.toEntity()).toList();
+
 
     return itemEntities;
   }
@@ -43,9 +45,10 @@ class ItemDefaultRepository extends ItemRepository {
 
     if (!hasCachedData) {
       final itemGithubModels = await remoteDataSource.getItems();
-      final itemHiveModels = itemGithubModels.map((e) => e.toHiveModel());
+      final itemHiveModels = itemGithubModels?.map((e) => e.toHiveModel());
 
-      await localDataSource.saveItems(itemHiveModels);
+
+      await localDataSource.saveItems(itemHiveModels!);
     }
 
     final itemHiveModels = await localDataSource.getItemsByPage(

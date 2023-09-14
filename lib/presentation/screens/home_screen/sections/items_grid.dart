@@ -114,6 +114,7 @@ class _ItemsGridState extends State<_ItemsGrid> {
               delegate: SliverChildBuilderDelegate(
                     (_, index) {
                   return ItemSelector(index, (item, _) {
+                    print(item.name);
                     return ItemCard(
                       item,
                       onPress: () => _onItemPress(item),
