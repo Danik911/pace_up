@@ -56,8 +56,8 @@ class _ItemsGridState extends State<_ItemsGrid> {
 
   void _onItemPress(Item item) {
     itemBloc.add(ItemSelectChanged(itemId: item.id));
-//TODO("Add navigation when item pressed")
-    //AppNavigator.push(Routes.newScreen, item);
+
+    AppNavigator.push(Routes.details, item);
   }
 
   @override

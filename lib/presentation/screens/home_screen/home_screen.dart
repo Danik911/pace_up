@@ -9,6 +9,7 @@ import '../../../../states/item/item_event.dart';
 import '../../../../states/item/item_selector.dart';
 import '../../../../states/item/item_state.dart';
 import '../../../configs/images.dart';
+import '../../../routes.dart';
 import '../../widgets/item_card.dart';
 import '../../widgets/item_refresh_control.dart';
 
