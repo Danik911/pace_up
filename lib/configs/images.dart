@@ -15,6 +15,8 @@ class AppImages {
   static const model_7 = _Image('7.jpg');
   static const model_8 = _Image('8.jpg');
   static const model_9 = _Image('9.jpg');
+  static const pokeball = _Image('pokeball.png');
+  static const dotted = _Image('dotted.png');
 
   static Future precacheAssets(BuildContext context) async {
     await precacheImage(model_1, context);
@@ -25,5 +27,7 @@ class AppImages {
     await precacheImage(model_7, context);
     await precacheImage(model_8, context);
     await precacheImage(model_9, context);
+    await precacheImage(dotted, context);
+    await precacheImage(pokeball, context);
   }
 }

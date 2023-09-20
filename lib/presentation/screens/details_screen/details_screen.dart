@@ -1,9 +1,27 @@
 
 
-
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pace_up/domain/entities/item.dart';
 import 'package:pace_up/presentation/screens/details_screen/state_provider.dart';
+import 'package:pace_up/presentation/widgets/item_image.dart';
+import 'package:pace_up/states/item/item_bloc.dart';
+import 'package:pace_up/states/item/item_event.dart';
+import '../../../../configs/colors.dart';
+import '../../../../configs/images.dart';
+import '../../../../states/item/item_selector.dart';
+import '../../theme/theme_cubit.dart';
+import '../../widgets/animated_fade.dart';
+import '../../widgets/auto_slideup_panel.dart';
+import '../../widgets/hero.dart';
+import '../../widgets/main_app_bar.dart';
+import '../../widgets/main_tab_view.dart';
+import 'package:pace_up/presentation/widgets/slide_animation.dart';
+part 'sections/backgroud_decoration.dart';
+part 'sections/item_info_card.dart';
+part 'sections/item_info_card_about.dart';
+part 'sections/item_overall_info.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});
@@ -48,6 +66,8 @@ class _DetailsScreen extends State<DetailsScreen> with TickerProviderStateMixin 
         body: Stack(
           children: <Widget>[
             _BackgroundDecoration(),
+            _ItemInfoCard(),
+            _ItemOverallInfo()
           ],
         ),
       ),

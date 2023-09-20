@@ -9,7 +9,7 @@ class ItemImage extends StatelessWidget {
 
   final Item item;
   final EdgeInsets padding;
-  final bool useItem;
+  final bool useHero;
   final Size size;
   final ImageProvider placeholder;
   final Color? tintColor;
@@ -19,7 +19,7 @@ class ItemImage extends StatelessWidget {
     required this.item,
     required this.size,
     this.padding = EdgeInsets.zero,
-    this.useItem = true,
+    this.useHero = true,
     this.placeholder = AppImages.model_1,
     this.tintColor,
   }) : super(key: key);
@@ -28,7 +28,7 @@ class ItemImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HeroMode(
-      enabled: useItem,
+      enabled: useHero,
       child: Hero(
         tag: item.image,
         child: AnimatedPadding(

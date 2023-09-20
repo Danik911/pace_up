@@ -2,9 +2,6 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 
-//part 'item.g.dart';
-
-
 List<GithubItemModel> githubItemModelsFromJson(String str) =>
     List<GithubItemModel>.from(
         json.decode(str).map((x) => GithubItemModel.fromJson(x)));

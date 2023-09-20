@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AnimatedFade extends AnimatedWidget {
-  const AnimatedFade({
+class SlideAnimation extends AnimatedWidget {
+  const SlideAnimation({
     required this.child,
     required this.animation,
   }) : super(listenable: animation);
@@ -11,14 +11,11 @@ class AnimatedFade extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    final opacity = animation.value;
+    final slideWidth = MediaQuery.of(context).size.width * 0.3;
 
-    return IgnorePointer(
-      ignoring: opacity < 1,
-      child: Opacity(
-        opacity: opacity,
-        child: child,
-      ),
+    return Transform.translate(
+      offset: Offset(slideWidth * (1 - animation.value), 0),
+      child: child,
     );
   }
 }

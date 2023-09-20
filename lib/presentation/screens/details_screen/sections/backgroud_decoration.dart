@@ -1,9 +1,5 @@
 
-import 'dart:math';
-
-import 'package:flutter/material.dart';
-
-import '../../../../configs/images.dart';
+part of '../details_screen.dart';
 
 class _BoxDecoration extends StatelessWidget {
   static const Size size = Size.square(144);
@@ -75,8 +71,8 @@ class _BackgroundDecoration extends StatefulWidget {
 }
 
 class _BackgroundDecorationState extends State<_BackgroundDecoration> {
-  Animation<double> get slideController => PokemonInfoStateProvider.of(context).slideController;
-  Animation<double> get rotateController => PokemonInfoStateProvider.of(context).rotateController;
+  Animation<double> get slideController => ItemInfoStateProvider.of(context).slideController;
+  Animation<double> get rotateController => ItemInfoStateProvider.of(context).rotateController;
 
   @override
   Widget build(BuildContext context) {
@@ -85,17 +81,17 @@ class _BackgroundDecorationState extends State<_BackgroundDecoration> {
         _buildBackground(),
         _buildBoxDecoration(),
         _buildDottedDecoration(),
-        _buildAppBarPokeballDecoration(),
+        _buildAppBarItemDecoration(),
       ],
     );
   }
 
   Widget _buildBackground() {
-    return CurrentPokemonSelector((pokemon) {
+    return CurrentItemSelector((item) {
       return AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        constraints: const BoxConstraints.expand(),
-        color: pokemon.color,
+        duration: Duration(milliseconds: 300),
+        constraints: BoxConstraints.expand(),
+        color: AppColors.lightBlue,
       );
     });
   }
@@ -116,21 +112,21 @@ class _BackgroundDecorationState extends State<_BackgroundDecoration> {
     );
   }
 
-  Widget _buildAppBarPokeballDecoration() {
+  Widget _buildAppBarItemDecoration() {
     final screenSize = MediaQuery.of(context).size;
     final safeAreaTop = MediaQuery.of(context).padding.top;
 
-    final pokeSize = screenSize.width * 0.5;
+    final itemSize = screenSize.width * 0.5;
     final appBarHeight = AppBar().preferredSize.height;
     const iconButtonPadding = mainAppbarPadding;
     final iconSize = IconTheme.of(context).size ?? 0;
 
-    final pokeballTopMargin = -(pokeSize / 2 - safeAreaTop - appBarHeight / 2);
-    final pokeballRightMargin = -(pokeSize / 2 - iconButtonPadding - iconSize / 2);
+    final itemTopMargin = -(itemSize / 2 - safeAreaTop - appBarHeight / 2);
+    final itemRightMargin = -(itemSize / 2 - iconButtonPadding - iconSize / 2);
 
     return Positioned(
-      top: pokeballTopMargin,
-      right: pokeballRightMargin,
+      top: itemTopMargin,
+      right: itemRightMargin,
       child: IgnorePointer(
         ignoring: true,
         child: AnimatedFade(
@@ -139,8 +135,8 @@ class _BackgroundDecorationState extends State<_BackgroundDecoration> {
             turns: rotateController,
             child: Image(
               image: AppImages.pokeball,
-              width: pokeSize,
-              height: pokeSize,
+              width: itemSize,
+              height: itemSize,
               color: Colors.white24,
             ),
           ),
