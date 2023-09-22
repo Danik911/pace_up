@@ -35,7 +35,7 @@ class _ItemInfoCardState extends State<_ItemInfoCard> {
               child: _ItemAbout(item),
             ),
             MainTabData(
-              label: 'Moves',
+              label: 'Where to buy',
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Text('Under development'),

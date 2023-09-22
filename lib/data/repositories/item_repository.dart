@@ -26,9 +26,9 @@ class ItemDefaultRepository extends ItemRepository {
 
     if (!hasCachedData) {
       final itemGithubModels = await remoteDataSource.getItems();
-      final itemHiveModels = itemGithubModels?.map((e) => e.toHiveModel());
+      final itemHiveModels = itemGithubModels.map((e) => e.toHiveModel());
 
-      await localDataSource.saveItems(itemHiveModels!);
+      await localDataSource.saveItems(itemHiveModels);
     }
 
     final itemHiveModels = await localDataSource.getAllItems();
@@ -45,10 +45,10 @@ class ItemDefaultRepository extends ItemRepository {
 
     if (!hasCachedData) {
       final itemGithubModels = await remoteDataSource.getItems();
-      final itemHiveModels = itemGithubModels?.map((e) => e.toHiveModel());
+      final itemHiveModels = itemGithubModels.map((e) => e.toHiveModel());
 
 
-      await localDataSource.saveItems(itemHiveModels!);
+      await localDataSource.saveItems(itemHiveModels);
     }
 
     final itemHiveModels = await localDataSource.getItemsByPage(

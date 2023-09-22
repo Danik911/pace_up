@@ -1,6 +1,7 @@
 
 
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pace_up/domain/entities/item.dart';
@@ -27,10 +28,10 @@ class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _DetailsScreen();
+  State<StatefulWidget> createState() => _DetailsScreenState();
 }
 
-class _DetailsScreen extends State<DetailsScreen> with TickerProviderStateMixin {
+class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateMixin {
   late AnimationController _slideController;
   late AnimationController _rotateController;
 

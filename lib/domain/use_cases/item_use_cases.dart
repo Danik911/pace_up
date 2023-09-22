@@ -39,9 +39,9 @@ class GetItemsPerPageUseCase extends UseCase<List<Item>, GetItemsParams> {
 }
 
 class GetItemParam {
-  final String number;
+  final String id;
 
-  const GetItemParam(this.number);
+  const GetItemParam(this.id);
 }
 
 class GetItemUseCase extends UseCase<Item?, GetItemParam> {
@@ -51,6 +51,6 @@ class GetItemUseCase extends UseCase<Item?, GetItemParam> {
 
   @override
   Future<Item?> call(GetItemParam params) {
-    return repository.getItem(params.number);
+    return repository.getItem(params.id);
   }
 }

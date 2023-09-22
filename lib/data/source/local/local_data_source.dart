@@ -21,15 +21,15 @@ class LocalDataSource {
   Future<void> saveItems(Iterable<ItemHiveModel> items) async {
     final itemBox = Hive.box<ItemHiveModel>(ItemHiveModel.boxKey);
 
-    final itemsMap = {for (var e in items) e.name: e};
+    final itemsMap = {for (var e in items) e.id: e};
     await itemBox.clear();
     await itemBox.putAll(itemsMap);
   }
 
-  Future<ItemHiveModel?> getItem(String number) async {
+  Future<ItemHiveModel?> getItem(String itemId) async {
     final itemBox = Hive.box<ItemHiveModel>(ItemHiveModel.boxKey);
 
-    return itemBox.get(number);
+    return itemBox.get(itemId);
   }
 
   Future<List<ItemHiveModel>> getAllItems() async {

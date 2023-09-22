@@ -120,7 +120,7 @@ class _ItemOverallInfoState extends State<_ItemOverallInfo>
 
   AppBar _buildAppBar() {
     return MainAppBar(
-      // A placeholder for easily calculate the translate of the pokemon name
+      // A placeholder for easily calculate the translate of the item name
       title: CurrentItemSelector((item) {
         _calculateItemNamePosition();
 
@@ -139,45 +139,47 @@ class _ItemOverallInfoState extends State<_ItemOverallInfo>
   }
 
   Widget _buildItemName() {
-    var bgColor = Theme.of(context).colorScheme.background;
+    var bgColor = Theme.of(context).colorScheme.onPrimaryContainer;
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 26),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Flexible(
-                  child:AnimatedBuilder(
-                    animation: slideController,
-                    builder: (_, __) {
-                      final value = slideController.value;
+      padding: EdgeInsets.symmetric(horizontal: 26),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Flexible(
+            child: AnimatedBuilder(
+              animation: slideController,
+              builder: (_, __) {
+                final value = slideController.value;
 
-                      return Transform.translate(
-                        offset: Offset(textDiffLeft * value, textDiffTop * value),
-                        child: CurrentItemSelector((item) {
-                          return HeroText(
-                            item.name,
-                            textKey: _currentTextKey,
-                            style: TextStyle(
-                              color: bgColor,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 36 - (36 - 22) * value,
-                            ),
-                          );
-                        }),
-                      );
-                    },
-                  ),
-              ),
+                return Transform.translate(
+                  offset: Offset(textDiffLeft * value, textDiffTop * value),
+                  child: CurrentItemSelector((item) {
+                    return HeroText(
+                      item.name,
+                      textKey: _currentTextKey,
+                      style: TextStyle(
+                        color: bgColor,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 36 - (36 - 22) * value,
+                        overflow: TextOverflow.ellipsis
+                      ),
+                    );
+                  }),
+                );
+              },
+            ),
+          ),
 
-              SlideAnimation(
+// If you need to you can add fade animation for size or other information
+          /*  SlideAnimation(
                 animation: _horizontalSlideController,
                 child: AnimatedFade(
                   animation: textFadeAnimation,
                   child: CurrentItemSelector((item) {
                     return HeroText(
-                      item.id,
+                      item.size,
                       style: TextStyle(
                         color: bgColor,
                         fontWeight: FontWeight.w900,
@@ -186,10 +188,10 @@ class _ItemOverallInfoState extends State<_ItemOverallInfo>
                     );
                   }),
                 ),
-              ),
-            ],
-          ),
-        );
+              ),*/
+        ],
+      ),
+    );
   }
 
   Widget _buildItemSlider() {
@@ -226,15 +228,45 @@ class _ItemOverallInfoState extends State<_ItemOverallInfo>
                 onPageChanged: _onSelectedItemChanged,
                 itemBuilder: (_, index) {
                   return ItemSelector(index, (item, selected) {
-                    return ItemImage(
-                      item: item,
-                      size: Size.square(itemSize),
-                      padding: EdgeInsets.symmetric(
-                        vertical: selected ? 0 : screenSize.height * 0.04,
-                      ),
-                      tintColor: selected ? null : Colors.black26,
-                      useHero: selected,
-                    );
+                    return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.blue,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.blue.withOpacity(0.4),
+                                blurRadius: 10,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Material(
+                              color: AppColors.itemBackground,
+                              child: InkWell(
+                                splashColor: Colors.white10,
+                                highlightColor: Colors.white10,
+                                child: Stack(
+                                  children: [
+                                    ItemImage(
+                                      item: item,
+                                      size: Size.square(itemSize * 0.7),
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: selected
+                                            ? 0
+                                            : screenSize.height * 0.04,
+                                      ),
+                                      useHero: selected,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ));
                   });
                 },
               );
