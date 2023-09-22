@@ -24,7 +24,6 @@ class ItemImage extends StatelessWidget {
     this.tintColor,
   }) : super(key: key);
 
-  //TODO("Later you'll need to change Image.asset to CachedNetworkImage")
   @override
   Widget build(BuildContext context) {
     return HeroMode(
@@ -46,9 +45,9 @@ class ItemImage extends StatelessWidget {
               image: image,
               width: size.width,
               height: size.height,
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.center,
               color: tintColor,
-              fit: BoxFit.contain,
+              fit: BoxFit.fill,
             ),
             placeholder: (_, __) => Image(
               image: placeholder,

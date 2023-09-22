@@ -106,7 +106,7 @@ class _ItemsGridState extends State<_ItemsGrid> {
           sliver: NumberOfItemsSelector((numberOfItems) {
             return SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 1,
                 childAspectRatio: 1.4,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
@@ -114,7 +114,6 @@ class _ItemsGridState extends State<_ItemsGrid> {
               delegate: SliverChildBuilderDelegate(
                     (_, index) {
                   return ItemSelector(index, (item, _) {
-                    print(item.name);
                     return ItemCard(
                       item,
                       onPress: () => _onItemPress(item),

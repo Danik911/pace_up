@@ -20,16 +20,16 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constrains) {
-        final itemHeight = constrains.maxHeight;
+        final itemWidth = constrains.maxWidth;
 
         return Container(
           decoration: BoxDecoration(
-            color: AppColors.darkBrown,
+            color: AppColors.blue,
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
-                color: AppColors.beige.withOpacity(0.4),
-                blurRadius: 15,
+                color: AppColors.blue.withOpacity(0.4),
+                blurRadius: 10,
                 offset: const Offset(0, 8),
               ),
             ],
@@ -37,15 +37,15 @@ class ItemCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Material(
-              color: AppColors.purple,
+              color: AppColors.whiteGrey,
               child: InkWell(
                 onTap: onPress,
                 splashColor: Colors.white10,
                 highlightColor: Colors.white10,
-                child: Stack(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildItem(height: itemHeight),
-                    _buildItemNumber(),
+                    _buildItem(width: itemWidth),
                     _CardContent(item),
                   ],
                 ),
@@ -57,30 +57,25 @@ class ItemCard extends StatelessWidget {
     );
   }
 
-  Widget _buildItem({required double height}) {
-    final itemSize = height * _itemFraction;
+  Widget _buildItem({required double width}) {
+    final itemWidth = width;
 
-    return Positioned(
-      bottom: -2,
-      right: 2,
-      child: ItemImage(
-        size: Size.square(itemSize),
-        item: item,
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: AppColors.blue,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.blue.withOpacity(0.4),
+            blurRadius: 10,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
-    );
-  }
-
-  Widget _buildItemNumber() {
-    return Positioned(
-      top: 10,
-      right: 14,
-      child: Text(
-        item.id,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-          color: Colors.amber,
-        ),
+      child: ItemImage(
+        size: Size.square(itemWidth * 0.65),
+        item: item,
       ),
     );
   }
@@ -93,30 +88,19 @@ class _CardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Hero(
-              tag: item.id + item.name,
-              child: Text(
-                item.name,
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 0.7,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.background,
-                ),
-              ),
+    return Padding(
+        padding: const EdgeInsets.all(5),
+        child: Hero(
+          tag: item.name,
+          child: Text(
+            item.name,
+            style: TextStyle(
+              fontSize: 14,
+              height: 0.7,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.background,
             ),
-            const SizedBox(height: 10),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
