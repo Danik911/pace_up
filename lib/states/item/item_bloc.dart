@@ -27,7 +27,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
 
       final items = event.loadAll
           ? await _itemRepository.getAllItems()
-          : await _itemRepository.getItems(page: 1, limit: itemsPerPage);
+          : await _itemRepository.getItemsByPage(page: 1, limit: itemsPerPage);
 
       final canLoadMore = items.length >= itemsPerPage;
 
@@ -43,7 +43,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
 
       emit(state.asLoadingMore());
 
-      final items = await _itemRepository.getItems(
+      final items = await _itemRepository.getItemsByPage(
         page: state.page + 1,
         limit: itemsPerPage,
       );

@@ -6,12 +6,13 @@ import 'package:pace_up/data/source/api/github_data_source.dart';
 import 'package:pace_up/presentation/theme/theme_cubit.dart';
 import 'package:pace_up/states/item/item_bloc.dart';
 import 'core/network_manager.dart';
+import 'data/source/local/hive/local_data_source_impl_hive.dart';
 import 'data/source/local/local_data_source.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await LocalDataSource.initialize();
+  await LocalDataSourceImplHive.initialize();
 
   runApp(
     MultiRepositoryProvider(
@@ -22,19 +23,19 @@ void main() async {
         RepositoryProvider<NetworkManager>(
           create: (context) => NetworkManager(),
         ),
+
         ///
         /// Data sources
         ///
         RepositoryProvider<LocalDataSource>(
-          create: (context) => LocalDataSource(),
+          //Here you can switch between data sources
+          create: (context) => LocalDataSourceImplHive(),
         ),
         RepositoryProvider<GithubDataSource>(
           create: (context) => GithubDataSource(context.read<NetworkManager>()),
         ),
-
         ///
         /// Repositories
-        ///
         ///
         RepositoryProvider<ItemRepository>(
           create: (context) => ItemDefaultRepository(

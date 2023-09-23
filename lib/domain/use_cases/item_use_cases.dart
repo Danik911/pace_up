@@ -34,7 +34,7 @@ class GetItemsPerPageUseCase extends UseCase<List<Item>, GetItemsParams> {
 
   @override
   Future<List<Item>> call(GetItemsParams params) {
-    return repository.getItems(page: params.page, limit: params.limit);
+    return repository.getItemsByPage(page: params.page, limit: params.limit);
   }
 }
 
