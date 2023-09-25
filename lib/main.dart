@@ -8,6 +8,7 @@ import 'package:pace_up/states/item/item_bloc.dart';
 import 'core/network_manager.dart';
 import 'data/source/local/hive/local_data_source_impl_hive.dart';
 import 'data/source/local/local_data_source.dart';
+import 'data/source/local/sqflite/local_datasource_impl_sqf.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +30,7 @@ void main() async {
         ///
         RepositoryProvider<LocalDataSource>(
           //Here you can switch between data sources
-          create: (context) => LocalDataSourceImplHive(),
+          create: (context) => LocalDataSourceImplSq(),
         ),
         RepositoryProvider<GithubDataSource>(
           create: (context) => GithubDataSource(context.read<NetworkManager>()),

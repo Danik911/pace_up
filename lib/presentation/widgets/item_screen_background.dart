@@ -23,31 +23,31 @@ class ItemScreenBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final safeAreaTop = MediaQuery.of(context).padding.top;
-    final pokeballSize = MediaQuery.of(context).size.width * _itemWidthFraction;
+    final itemSize = MediaQuery.of(context).size.width * _itemWidthFraction;
     final appBarHeight = AppBar().preferredSize.height;
     const iconButtonPadding = mainAppbarPadding;
     final iconSize = IconTheme.of(context).size ?? 0;
 
-    final pokeballTopMargin = -(pokeballSize / 2 - safeAreaTop - appBarHeight / 2);
-    final pokeballRightMargin = -(pokeballSize / 2 - iconButtonPadding - iconSize / 2);
+    final itemTopMargin = -(itemSize / 2 - safeAreaTop - appBarHeight / 2);
+    final itemRightMargin = -(itemSize / 2 - iconButtonPadding - iconSize / 2);
 
     var themeCubit = BlocProvider.of<ThemeCubit>(context, listen: true);
-    var isDark = themeCubit.isDark;
+    var isDark = themeCubit.isClosed;
     return Scaffold(
-      // backgroundColor: Colors.white,
+      backgroundColor: AppColors.blue,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Positioned(
-            top: pokeballTopMargin,
-            right: pokeballRightMargin,
+      /*    Positioned(
+            top: itemTopMargin,
+            right: itemRightMargin,
             child: Image(
               image: AppImages.model_4,
-              width: pokeballSize,
-              height: pokeballSize,
+              width: itemSize,
+              height: itemSize,
               color: !isDark ? AppColors.whiteGrey : Colors.black.withOpacity(0.05),
             ),
-          ),
+          ),*/
           child,
         ],
       ),

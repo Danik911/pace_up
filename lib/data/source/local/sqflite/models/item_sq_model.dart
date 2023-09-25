@@ -18,7 +18,7 @@ class ItemSqModel {
   final String image;
   final String size;
 
-  // Convert a Item into a Map. The keys must correspond to the names of the
+  // Convert a ItemSqModel into a Map. The keys must correspond to the names of the
   // columns in the database.
   Map<String, dynamic> toMap() {
     return {
@@ -49,6 +49,6 @@ class ItemSqModel {
   // each dog when using the print statement.
   @override
   String toString() {
-    return 'Dog(id: $id, name: $name, description: $description, image: $image, size: $size)';
+    return 'Item(id: $id, name: $name, description: $description, image: $image, size: $size)';
   }
 }

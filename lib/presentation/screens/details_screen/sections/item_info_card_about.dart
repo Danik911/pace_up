@@ -13,51 +13,6 @@ class _Label extends Text {
         );
 }
 
-class _ContentSection extends StatelessWidget {
-  final String label;
-  final List<Widget>? children;
-
-  const _ContentSection({
-    Key? key,
-    required this.label,
-    this.children,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          label,
-          style: TextStyle(height: 0.8, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 22),
-        if (children != null) ...children!
-      ],
-    );
-  }
-}
-
-class _TextIcon extends StatelessWidget {
-  final ImageProvider icon;
-  final String text;
-
-  const _TextIcon(this.icon, this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Image(image: icon, width: 12, height: 12),
-        SizedBox(width: 4),
-        Text(text, style: TextStyle(height: 0.8)),
-      ],
-    );
-  }
-}
 
 class _ItemAbout extends StatelessWidget {
   final Item item;
@@ -123,10 +78,10 @@ class _ItemAbout extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _Label('Height', isDark),
+                _Label('Model', isDark),
                 SizedBox(height: 11),
                 Text(
-                  '${height}',
+                  height,
                   style: TextStyle(
                     height: 0.8,
                   ),
@@ -138,9 +93,9 @@ class _ItemAbout extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _Label('Weight', isDark),
+                _Label('Size', isDark),
                 SizedBox(height: 11),
-                Text('${weight}',
+                Text(weight,
                     style: TextStyle(
                       height: 0.8,
                     ))

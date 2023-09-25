@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:pace_up/configs/colors.dart';
+import '../../routes.dart';
 import '../../utils/size.dart';
 
 const double mainAppbarPadding = 28;
 
 class MainSliverAppBar extends SliverAppBar {
   static const TextStyle _textStyle = TextStyle(
-    // color: Colors.black,
+    color: AppColors.grey,
     fontWeight: FontWeight.bold,
     fontSize: kToolbarHeight / 3,
     height: 1,
@@ -13,7 +15,7 @@ class MainSliverAppBar extends SliverAppBar {
 
   MainSliverAppBar(
       {super.key, GlobalKey? appBarKey,
-      String title = 'Items',
+      String title = 'Sneakers',
       double height = kToolbarHeight + mainAppbarPadding * 2,
       double expandedFontSize = 30,
       //void Function()? onLeadingPress = AppNavigator.pop,
@@ -60,7 +62,7 @@ class MainSliverAppBar extends SliverAppBar {
               final dx = startX + endX - endX * percent;
 
               return Container(
-                color: Theme.of(context).colorScheme.background.withOpacity(0.8 - percent * 0.8),
+                color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.8 - percent * 0.8),
                 child: Stack(
                   fit: StackFit.expand,
                   children: <Widget>[
@@ -88,11 +90,11 @@ class MainAppBar extends AppBar {
           title: title,
           backgroundColor: Colors.transparent,
           elevation: 0,
-       /*   leading: const IconButton(
+          leading: const IconButton(
             padding: EdgeInsets.symmetric(horizontal: mainAppbarPadding),
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back_ios),
             onPressed: AppNavigator.pop,
-          ),*/
+          ),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: mainAppbarPadding),

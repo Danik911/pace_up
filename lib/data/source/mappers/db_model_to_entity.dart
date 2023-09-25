@@ -30,4 +30,13 @@ extension ItemToLocalHiveX on Item {
     ..image = image.trim() ?? ""
     ..size = size.trim() ?? "";
 }
+extension ItemToLocalSqModleX on Item {
+  ItemSqModel toLocalSqModel() => ItemSqModel(
+    id: id.trim() ?? '',
+    name: name.trim() ?? '',
+    description: description.trim() ?? '',
+    image: image.trim() ?? '',
+    size: size.trim() ?? '',
+  );
 
+}

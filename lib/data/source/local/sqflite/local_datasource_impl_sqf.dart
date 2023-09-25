@@ -1,14 +1,21 @@
+import 'dart:math';
+
+import 'package:pace_up/data/source/local/local_data_source.dart';
 import 'package:pace_up/data/source/local/sqflite/models/item_sq_model.dart';
+import 'package:pace_up/data/source/mappers/db_model_to_entity.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseService {
+import '../../../../domain/entities/item.dart';
+
+class LocalDataSourceImplSq extends LocalDataSource {
   // Singleton pattern
-  static final DatabaseService _databaseService = DatabaseService._internal();
+  static final LocalDataSourceImplSq _databaseService =
+      LocalDataSourceImplSq._internal();
 
-  factory DatabaseService() => _databaseService;
+  factory LocalDataSourceImplSq() => _databaseService;
 
-  DatabaseService._internal();
+  LocalDataSourceImplSq._internal();
 
   static Database? _database;
 
@@ -46,6 +53,7 @@ class DatabaseService {
     );
   }
 
+  @override
   Future<bool> hasData() async {
     // Get a reference to the database.
     final db = await _databaseService.database;
@@ -53,28 +61,36 @@ class DatabaseService {
     // Query the table for all the Items.
     final List<Map<String, dynamic>> maps = await db.query('items');
 
-    // Convert the List<Map<String, dynamic> into a List<ItemSqModels>.
     return maps.isNotEmpty;
   }
 
   // Define a function that inserts item into the database
-  Future<void> insertItem(ItemSqModel item) async {
+  @override
+  Future<void> saveItems(Iterable<Item> items) async {
     // Get a reference to the database.
     final db = await _databaseService.database;
 
-    // Insert the Breed into the correct table. You might also specify the
+    // Insert the Item into the correct table. You might also specify the
     // `conflictAlgorithm` to use in case the same breed is inserted twice.
     //
     // In this case, replace any previous data.
-    await db.insert(
-      'items',
-      item.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    final itemSqModel = items.map((e) => e.toLocalSqModel());
+
+    try {
+      for (final item in itemSqModel) {
+        await db.insert(
+            "items",
+            item.toMap(),
+            conflictAlgorithm: ConflictAlgorithm.replace);
+      }
+    } catch (e) {
+      print('Exception: $e');
+    }
   }
 
   // A method that retrieves all the items from the items table.
-  Future<List<ItemSqModel>> items() async {
+  @override
+  Future<List<Item>> getAllItems() async {
     // Get a reference to the database.
     final db = await _databaseService.database;
 
@@ -82,18 +98,40 @@ class DatabaseService {
     final List<Map<String, dynamic>> maps = await db.query('items');
 
     // Convert the List<Map<String, dynamic> into a List<ItemSqModels>.
-    return List.generate(
-        maps.length, (index) => ItemSqModel.fromMap(maps[index]));
+    final listOfItemsAq =
+        List.generate(maps.length, (index) => ItemSqModel.fromMap(maps[index]));
+    return listOfItemsAq.map((e) => e.toEntity()).toList();
   }
 
-  Future<ItemSqModel> item(String id) async {
+  @override
+  Future<Item> getItem(String itemId) async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps =
-        await db.query('items', where: 'id = ?', whereArgs: [id]);
-    return ItemSqModel.fromMap(maps[0]);
+        await db.query('items', where: 'id = ?', whereArgs: [itemId]);
+    final itemSqModel = ItemSqModel.fromMap(maps[0]);
+    return itemSqModel.toEntity();
   }
 
-  // A method that updates a items data from the items table.
+  @override
+  Future<List<Item>> getItemsByPage(
+      {required int page, required int limit}) async {
+    final db = await _databaseService.database;
+
+    final List<Map<String, dynamic>> maps = await db.query('items');
+
+    final listOfItemsAq =
+        List.generate(maps.length, (index) => ItemSqModel.fromMap(maps[index]));
+
+    final listOfItems = listOfItemsAq.map((e) => e.toEntity()).toList();
+    final totalItems = listOfItems.length;
+
+    final start = (page - 1) * limit;
+    final newItemCount = min(totalItems - start, limit);
+
+    return listOfItems;
+  }
+
+/* // A method that updates a items data from the items table.
   Future<void> updateItem(ItemSqModel item) async {
     // Get a reference to the database.
     final db = await _databaseService.database;
@@ -122,5 +160,5 @@ class DatabaseService {
       // Pass the Item's id as a whereArg to prevent SQL injection.
       whereArgs: [id],
     );
-  }
+  }*/
 }
