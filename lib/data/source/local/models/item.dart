@@ -21,6 +21,6 @@ class ItemHiveModel extends HiveObject {
   late String image;
 
   @HiveField(4)
-  late String size;
+  late String cost;
 
 }

@@ -6,7 +6,7 @@ class Item {
     required this.name,
     required this.description,
     required this.image,
-    required this.size
+    required this.cost
 
   });
 
@@ -14,6 +14,6 @@ class Item {
   final String name;
   final String description;
   final String image;
-  final String size;
+  final String cost;
 
 }

@@ -14,9 +14,6 @@ class GithubDataSource {
 
     final data =((response.data) as List)
         .map((item) => GithubItemModel.fromJson(item)).toList();
-
-
-
     return data;
   }
 }

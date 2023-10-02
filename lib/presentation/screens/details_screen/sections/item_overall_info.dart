@@ -222,7 +222,7 @@ class _ItemOverallInfoState extends State<_ItemOverallInfo>
             NumberOfItemsSelector((numberOfItems) {
               return PageView.builder(
                 allowImplicitScrolling: true,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 controller: _pageController,
                 itemCount: numberOfItems,
                 onPageChanged: _onSelectedItemChanged,
@@ -230,41 +230,25 @@ class _ItemOverallInfoState extends State<_ItemOverallInfo>
                   return ItemSelector(index, (item, selected) {
                     return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.blue,
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.blue.withOpacity(0.4),
-                                blurRadius: 10,
-                                offset: const Offset(0, 8),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Material(
+                            color: AppColors.itemBackground,
+                            child: Stack(
+                                children: [
+                                  ItemImage(
+                                    item: item,
+                                    size: Size.square(itemSize * 0.7),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: selected
+                                          ? 0
+                                          : screenSize.height * 0.04,
+                                    ),
+                                    useHero: selected,
+                                  )
+                                ],
                               ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Material(
-                              color: AppColors.itemBackground,
-                              child: InkWell(
-                                splashColor: Colors.white10,
-                                highlightColor: Colors.white10,
-                                child: Stack(
-                                  children: [
-                                    ItemImage(
-                                      item: item,
-                                      size: Size.square(itemSize * 0.7),
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: selected
-                                            ? 0
-                                            : screenSize.height * 0.04,
-                                      ),
-                                      useHero: selected,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+
                           ),
                         ));
                   });

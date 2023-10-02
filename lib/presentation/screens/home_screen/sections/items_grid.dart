@@ -107,8 +107,7 @@ class _ItemsGridState extends State<_ItemsGrid> {
             return SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
-                childAspectRatio: 1.4,
-                crossAxisSpacing: 10,
+                childAspectRatio: 2.5,
                 mainAxisSpacing: 10,
               ),
               delegate: SliverChildBuilderDelegate(
@@ -116,7 +115,7 @@ class _ItemsGridState extends State<_ItemsGrid> {
                   return ItemSelector(index, (item, _) {
                     return ItemCard(
                       item,
-                      onPress: () => _onItemPress(item),
+                      onItemPress: () => _onItemPress(item),
                     );
                   });
                 },
@@ -132,7 +131,7 @@ class _ItemsGridState extends State<_ItemsGrid> {
             }
 
             return Container(
-              padding: const EdgeInsets.only(bottom: 28),
+              padding: const EdgeInsets.only(bottom: 18),
               alignment: Alignment.center,
               child: const Image(image: AppImages.model_9),
             );

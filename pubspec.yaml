@@ -48,6 +48,8 @@ dependencies:
   json_annotation: ^4.0.1
   analyzer: ^6.2.0
   http: ^0.13.4
+  flutter_screenutil: ^5.9.0
+  badges: ^3.1.2
 
 dependency_overrides:
   # for dio_http_cache

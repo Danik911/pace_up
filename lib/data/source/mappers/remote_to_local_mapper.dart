@@ -7,6 +7,6 @@ extension RemoteItemModelToLocalX on GithubItemModel {
     ..name = name.trim()
     ..description = description.trim() ?? ""
     ..image = image.trim() ?? ""
-    ..size = size.trim() ?? "";
+    ..cost = cost.trim() ?? "";
 }
 

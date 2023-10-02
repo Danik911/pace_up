@@ -88,7 +88,7 @@ class _ItemAbout extends StatelessWidget {
         children: <Widget>[
           _buildDescription(item.description),
           SizedBox(height: 28),
-          _buildHeightWeight(item.name, item.size, context, isDark),
+          _buildHeightWeight(item.name, item.cost, context, isDark),
         ],
       ),
     );

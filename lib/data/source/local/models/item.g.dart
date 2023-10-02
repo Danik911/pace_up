@@ -21,7 +21,7 @@ class ItemHiveModelAdapter extends TypeAdapter<ItemHiveModel> {
       ..name = fields[1] as String
       ..description = fields[2] as String
       ..image = fields[3] as String
-      ..size = fields[4] as String;
+      ..cost = fields[4] as String;
   }
 
   @override
@@ -37,7 +37,7 @@ class ItemHiveModelAdapter extends TypeAdapter<ItemHiveModel> {
       ..writeByte(3)
       ..write(obj.image)
       ..writeByte(4)
-      ..write(obj.size);
+      ..write(obj.cost);
   }
 
   @override

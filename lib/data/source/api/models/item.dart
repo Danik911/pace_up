@@ -15,14 +15,14 @@ class GithubItemModel {
   String name;
   String description;
   String image;
-  String size;
+  String cost;
 
   GithubItemModel({
     required this.id,
     required this.name,
     required this.description,
     required this.image,
-    required this.size,
+    required this.cost,
   });
 
 
@@ -32,7 +32,7 @@ class GithubItemModel {
         name: json["name"],
         description: json["description"],
         image: json["image"],
-        size: json["size"],
+        cost: json["cost"],
       );
 
   Map<String, dynamic> toJson() =>
@@ -41,9 +41,8 @@ class GithubItemModel {
         "name": name,
         "description": description,
         "image": image,
-        "size": size,
+        "cost": cost,
       };
-
 }
 
 

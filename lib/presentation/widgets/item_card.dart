@@ -1,4 +1,6 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+
 import '../../configs/colors.dart';
 import '../../domain/entities/item.dart';
 import 'item_image.dart';
@@ -8,12 +10,14 @@ class ItemCard extends StatelessWidget {
   static const double _itemFraction = 0.76;
 
   final Item item;
-  final void Function()? onPress;
+  final void Function()? onItemPress;
+  final void Function()? onCartPress;
 
   const ItemCard(
     this.item, {
     super.key,
-    this.onPress,
+    this.onItemPress,
+    this.onCartPress,
   });
 
   @override
@@ -22,35 +26,26 @@ class ItemCard extends StatelessWidget {
       builder: (context, constrains) {
         final itemWidth = constrains.maxWidth;
 
-        return Container(
-          decoration: BoxDecoration(
-            color: AppColors.blue,
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.blue.withOpacity(0.4),
-                blurRadius: 10,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Material(
-              color: AppColors.whiteGrey,
-              child: InkWell(
-                onTap: onPress,
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Material(
+            color: AppColors.whiteGrey,
+            child: InkWell(
+                onTap: onItemPress,
                 splashColor: Colors.white10,
                 highlightColor: Colors.white10,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Stack(
                   children: [
                     _buildItem(width: itemWidth),
-                    _CardContent(item),
+                    Positioned(left: 120, top: 35, child: _CardContent(item)),
+                    Positioned(
+                        right: 15,
+                        top: 15,
+                        child: _CartIcon(
+                          onCartPress: () => print("onCard Pressed"),
+                        )),
                   ],
-                ),
-              ),
-            ),
+                )),
           ),
         );
       },
@@ -65,16 +60,9 @@ class ItemCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.blue,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.blue.withOpacity(0.4),
-            blurRadius: 10,
-            offset: const Offset(0, 8),
-          ),
-        ],
       ),
       child: ItemImage(
-        size: Size.square(itemWidth * 0.65),
+        size: Size.square(itemWidth * 0.4),
         item: item,
       ),
     );
@@ -88,19 +76,77 @@ class _CardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(5),
-        child: Hero(
-          tag: item.name,
-          child: Text(
-            item.name,
-            style: TextStyle(
-              fontSize: 14,
-              height: 0.7,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.background,
+    return Hero(
+        tag: item.id,
+        child: Padding(
+          padding: EdgeInsets.all(18),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              item.name,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              softWrap: true,
+              style: TextStyle(
+                fontSize: 14,
+                height: 0.7,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.background,
+              ),
             ),
-          ),
+            Padding(padding: EdgeInsets.only(bottom: 12)),
+            Text(
+              "Price: ${item.cost}",
+              style: TextStyle(
+                fontSize: 14,
+                height: 0.7,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.background,
+              ),
+            ),
+          ]),
         ));
+  }
+}
+
+class _CartIcon extends StatelessWidget {
+  final void Function() onCartPress;
+
+  const _CartIcon({required this.onCartPress, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return badges.Badge(
+      position: badges.BadgePosition.topEnd(top: 10, end: 5),
+      showBadge: true,
+      ignorePointer: false,
+      onTap: onCartPress,
+      badgeContent: Icon(Icons.shopping_cart, size: 25),
+      badgeAnimation: badges.BadgeAnimation.rotation(
+        animationDuration: Duration(milliseconds: 1000),
+        colorChangeAnimationDuration: Duration(milliseconds: 500),
+        loopAnimation: false,
+        curve: Curves.fastOutSlowIn,
+        colorChangeAnimationCurve: Curves.bounceIn,
+      ),
+      badgeStyle: badges.BadgeStyle(
+        shape: badges.BadgeShape.instagram,
+        badgeColor: Colors.blue,
+        padding: EdgeInsets.all(8),
+        borderRadius: BorderRadius.circular(4),
+        borderSide: BorderSide(color: Colors.white, width: 2),
+        borderGradient: badges.BadgeGradient.linear(
+            colors: [Colors.lightBlue, Colors.black]),
+        badgeGradient: badges.BadgeGradient.linear(
+          colors: [Colors.greenAccent, Colors.indigo],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: Text(
+        "34",
+        style: TextStyle(color: Colors.blueAccent),
+      ),
+    );
   }
 }
