@@ -21,6 +21,12 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
     on<ItemSelectChanged>(_onSelectChanged);
   }
 
+/*
+  void _onItemAddIntoCart(ItemAddIntoCart event, Emitter<ItemState> emit) async {
+   emit(state.asAddIntoCart());
+  }
+*/
+
   void _onLoadStarted(ItemLoadStarted event, Emitter<ItemState> emit) async {
     try {
       emit(state.asLoading());

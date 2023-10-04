@@ -32,6 +32,10 @@ class ItemState {
 
   const ItemState.initial() : this._();
 
+ /* ItemState asAddIntoCart() {
+
+  }*/
+
   ItemState asLoading() {
     return copyWith(
       status: ItemStateStatus.loading,

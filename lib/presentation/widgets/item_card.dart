@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../configs/colors.dart';
 import '../../domain/entities/item.dart';
@@ -13,8 +14,7 @@ class ItemCard extends StatelessWidget {
   final void Function()? onItemPress;
   final void Function()? onCartPress;
 
-  const ItemCard(
-    this.item, {
+  const ItemCard(this.item, {
     super.key,
     this.onItemPress,
     this.onCartPress,
@@ -30,22 +30,23 @@ class ItemCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           child: Material(
             color: AppColors.whiteGrey,
-            child: InkWell(
-                onTap: onItemPress,
-                splashColor: Colors.white10,
-                highlightColor: Colors.white10,
-                child: Stack(
-                  children: [
-                    _buildItem(width: itemWidth),
-                    Positioned(left: 120, top: 35, child: _CardContent(item)),
-                    Positioned(
-                        right: 15,
-                        top: 15,
-                        child: _CartIcon(
-                          onCartPress: () => print("onCard Pressed"),
-                        )),
-                  ],
-                )),
+            child: Stack(
+              fit: StackFit.values.last,
+              children: [
+                InkWell(
+                    onTap: onItemPress,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        _buildItem(width: itemWidth),
+                        _CardContent(item),
+                      ],
+                    )),
+                CartIcon(
+                  onCartPress: onCartPress,
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -79,74 +80,121 @@ class _CardContent extends StatelessWidget {
     return Hero(
         tag: item.id,
         child: Padding(
-          padding: EdgeInsets.all(18),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              item.name,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              softWrap: true,
-              style: TextStyle(
-                fontSize: 14,
-                height: 0.7,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.background,
+          padding: EdgeInsets.only(top: 40, left: 12),
+          child: SizedBox(
+            width: 150,
+            child:
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                item.name,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 1,
+                  fontWeight: FontWeight.bold,
+                  color: Theme
+                      .of(context)
+                      .colorScheme
+                      .background,
+                ),
               ),
-            ),
-            Padding(padding: EdgeInsets.only(bottom: 12)),
-            Text(
-              "Price: ${item.cost}",
-              style: TextStyle(
-                fontSize: 14,
-                height: 0.7,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.background,
+              const Padding(padding: EdgeInsets.only(bottom: 12)),
+              Text(
+                "Price: ${item.cost}",
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 0.7,
+                  fontWeight: FontWeight.bold,
+                  color: Theme
+                      .of(context)
+                      .colorScheme
+                      .background,
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ));
   }
 }
 
-class _CartIcon extends StatelessWidget {
-  final void Function() onCartPress;
+class CartIcon extends StatefulWidget {
 
-  const _CartIcon({required this.onCartPress, Key? key}) : super(key: key);
+
+  const CartIcon({
+    super.key,
+    this.onCartPress,
+  });
+
+  final void Function()? onCartPress;
+
+
+
+  @override
+  _CartIconState createState() => _CartIconState();
+}
+
+class _CartIconState extends State<CartIcon> {
+
+  int _cartBadgeAmount = 0;
+  late bool _showCartBadge;
+
 
   @override
   Widget build(BuildContext context) {
-    return badges.Badge(
-      position: badges.BadgePosition.topEnd(top: 10, end: 5),
-      showBadge: true,
-      ignorePointer: false,
-      onTap: onCartPress,
-      badgeContent: Icon(Icons.shopping_cart, size: 25),
-      badgeAnimation: badges.BadgeAnimation.rotation(
-        animationDuration: Duration(milliseconds: 1000),
-        colorChangeAnimationDuration: Duration(milliseconds: 500),
-        loopAnimation: false,
-        curve: Curves.fastOutSlowIn,
-        colorChangeAnimationCurve: Curves.bounceIn,
-      ),
-      badgeStyle: badges.BadgeStyle(
-        shape: badges.BadgeShape.instagram,
-        badgeColor: Colors.blue,
-        padding: EdgeInsets.all(8),
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: Colors.white, width: 2),
-        borderGradient: badges.BadgeGradient.linear(
-            colors: [Colors.lightBlue, Colors.black]),
-        badgeGradient: badges.BadgeGradient.linear(
-          colors: [Colors.greenAccent, Colors.indigo],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+    _showCartBadge = _cartBadgeAmount > 0;
+    return Stack(
+      children: [
+        Positioned(
+          top: 15,
+          right: 15,
+          child: badges.Badge(
+            position: badges.BadgePosition.topEnd(top: 10, end: 8),
+            showBadge: true,
+            ignorePointer: false,
+            onTap: () => setState(() {_cartBadgeAmount++;}),
+            badgeContent: const Icon(Icons.shopping_cart, size: 22),
+            badgeAnimation: const badges.BadgeAnimation.rotation(
+              animationDuration: Duration(milliseconds: 1000),
+              colorChangeAnimationDuration: Duration(milliseconds: 500),
+              loopAnimation: false,
+              curve: Curves.fastOutSlowIn,
+              colorChangeAnimationCurve: Curves.bounceIn,
+            ),
+            badgeStyle: badges.BadgeStyle(
+              shape: badges.BadgeShape.instagram,
+              badgeColor: Colors.blue,
+              padding: const EdgeInsets.all(8),
+              borderRadius: BorderRadius.circular(4),
+              borderSide: const BorderSide(color: Colors.white, width: 2),
+              borderGradient: const badges.BadgeGradient.linear(
+                  colors: [Colors.lightBlue, Colors.black]),
+              badgeGradient: const badges.BadgeGradient.linear(
+                colors: [Colors.greenAccent, Colors.indigo],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
         ),
-      ),
-      child: Text(
-        "34",
-        style: TextStyle(color: Colors.blueAccent),
-      ),
+        Positioned(
+          top: 5,
+          right: 10,
+          child: Visibility(
+              visible: _showCartBadge,
+              child: Text(
+                "$_cartBadgeAmount",
+                style: TextStyle(color: Colors.blueAccent),
+              )),
+        )
+      ],
     );
   }
 }
+
+
+
+
+
+
+
