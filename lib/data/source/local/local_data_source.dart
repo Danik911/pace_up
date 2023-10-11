@@ -3,7 +3,12 @@ import 'dart:math';
 import 'package:hive_flutter/adapters.dart';
 import 'package:pace_up/data/source/local/models/item.dart';
 
+import '../../../domain/entities/cart_item.dart';
+
 class LocalDataSource {
+
+  final List<CartItem> cart = [];
+
   static Future<void> initialize() async {
     await Hive.initFlutter();
 
@@ -51,12 +56,25 @@ class LocalDataSource {
     final newItemCount = min(totalItems - start, limit);
 
     final items =
-        List.generate(newItemCount, (index) => itemBox.getAt(start + index))
-            .whereType<ItemHiveModel>()
-            .toList();
+    List.generate(newItemCount, (index) => itemBox.getAt(start + index))
+        .whereType<ItemHiveModel>()
+        .toList();
 
     return items;
   }
+
+  List<CartItem> getAllCartItems() {
+    return cart;
+  }
+
+  void addCartItem(CartItem cartItem) {
+    cart.add(cartItem);
+  }
+
+  void deleteCartItem(String cartItemId) {
+  cart.removeWhere((element) => element.id == cartItemId);
+  }
+
 
 /*  final listOfItemsForTesting = [
     Item(

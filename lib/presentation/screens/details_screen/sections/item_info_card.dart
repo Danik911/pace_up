@@ -38,7 +38,35 @@ class _ItemInfoCardState extends State<_ItemInfoCard> {
               label: 'Where to buy',
               child: Align(
                 alignment: Alignment.topCenter,
-                child: Text('Under development'),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 44),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.blue),
+                        overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.hovered))
+                              return Colors.blue.withOpacity(0.04);
+                            if (states.contains(MaterialState.focused) ||
+                                states.contains(MaterialState.pressed))
+                              return Colors.blue.withOpacity(0.12);
+                            return null; // Defer to the widget's default.
+                          },
+                        ),
+                      ),
+                      onPressed: () {},
+                      child: Text(
+                        'Add to catrt',
+                        style:
+                        TextStyle
+                          (
+                            color: Colors.white,
+                            fontSize:24,
+                            fontFamily: "Roboto"
+                        ),
+                      )),
+                ),
               ),
             ),
           ],

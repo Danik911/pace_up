@@ -6,12 +6,12 @@ import 'fonts.dart';
 class AppTheme {
   static const TextStyle darkText = TextStyle(
     color: AppColors.whiteGrey,
-    fontFamily: AppFonts.circularStd,
+    fontFamily: AppFonts.roboto,
   );
 
   static const TextStyle lightText = TextStyle(
     color: AppColors.black,
-    fontFamily: AppFonts.circularStd,
+    fontFamily: AppFonts.roboto,
   );
 
   static final ThemeData darkTheme = ThemeData(

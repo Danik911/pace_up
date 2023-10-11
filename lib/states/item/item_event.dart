@@ -20,4 +20,3 @@ class ItemSelectChanged extends ItemEvent {
   const ItemSelectChanged({required this.itemId});
 }
 
-class ItemAddIntoCart extends ItemEvent{}

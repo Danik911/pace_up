@@ -50,6 +50,8 @@ dependencies:
   http: ^0.13.4
   flutter_screenutil: ^5.9.0
   badges: ^3.1.2
+  equatable: ^2.0.5
+
 
 dependency_overrides:
   # for dio_http_cache
@@ -92,6 +94,14 @@ flutter:
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
+
+
+  fonts:
+    - family: Roboto
+      fonts:
+       - asset: assets/fonts/robotoSlab.ttf
+         style: italic
+         weight: 700
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

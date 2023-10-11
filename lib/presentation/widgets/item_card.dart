@@ -131,17 +131,20 @@ class CartIcon extends StatefulWidget {
 
 
   @override
-  _CartIconState createState() => _CartIconState();
+  CartIconState createState() => CartIconState();
 }
 
-class _CartIconState extends State<CartIcon> {
+class CartIconState extends State<CartIcon> with AutomaticKeepAliveClientMixin<CartIcon> {
 
   int _cartBadgeAmount = 0;
   late bool _showCartBadge;
 
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     _showCartBadge = _cartBadgeAmount > 0;
     return Stack(
       children: [
@@ -184,7 +187,7 @@ class _CartIconState extends State<CartIcon> {
               visible: _showCartBadge,
               child: Text(
                 "$_cartBadgeAmount",
-                style: TextStyle(color: Colors.blueAccent),
+                style: const TextStyle(color: Colors.blueAccent),
               )),
         )
       ],

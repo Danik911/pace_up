@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pace_up/data/source/api/github_data_source.dart';
 import 'package:pace_up/data/source/local/local_data_source.dart';
-import 'package:pace_up/data/source/mappers/hive_item_model_to_entity.dart';
-import 'package:pace_up/data/source/mappers/remote_to_local_mapper.dart';
+import 'package:pace_up/data/source/mappers/ext_on_hive_model.dart';
+import 'package:pace_up/data/source/mappers/ext_on_git_model.dart';
 import 'package:pace_up/domain/entities/item.dart';
 
 abstract class ItemRepository {

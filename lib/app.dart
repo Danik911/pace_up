@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
+import 'package:pace_up/configs/fonts.dart';
 import 'package:pace_up/configs/theme.dart';
 import 'package:pace_up/presentation/theme/theme_cubit.dart';
 import 'package:pace_up/routes.dart';
