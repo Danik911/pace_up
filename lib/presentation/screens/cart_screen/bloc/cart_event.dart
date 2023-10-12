@@ -14,11 +14,18 @@ class CartItemLoadStarted extends CartEvent {
 
 class CartLoadMoreStarted extends CartEvent {}
 
-class CartItemDelete extends CartEvent {
+class CartItemIncrease extends CartEvent {
   final String? cartItemId;
 
-  const CartItemDelete({this.cartItemId});
+  const CartItemIncrease({ this.cartItemId});
 }
+
+class CartItemDecrease extends CartEvent {
+  final String? cartItemId;
+
+  const CartItemDecrease({ this.cartItemId});
+}
+
 
 class CartItemUpdated extends CartEvent {
   final List<CartItem> cartItems;

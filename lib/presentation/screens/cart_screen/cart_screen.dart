@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:pace_up/domain/entities/cart_item.dart';
 import 'package:pace_up/presentation/screens/cart_screen/bloc/cart_bloc.dart';
+import 'package:pace_up/presentation/widgets/cart_item_card.dart';
 import '../../../configs/images.dart';
+import '../../../domain/entities/item.dart';
 import '../../../states/item/item_selector.dart';
 import '../../widgets/item_refresh_control.dart';
 import '../../widgets/item_screen_background.dart';
@@ -16,7 +18,7 @@ part 'sections/cart_list.dart';
 
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({super.key})
+  const CartScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _CartScreenState();

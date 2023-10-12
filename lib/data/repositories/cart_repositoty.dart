@@ -2,13 +2,15 @@
 import 'package:pace_up/data/source/mappers/ext_on_hive_model.dart';
 
 import '../../domain/entities/cart_item.dart';
-import '../../domain/entities/item.dart';
 import '../source/local/local_data_source.dart';
 
 abstract class CartRepository {
   List<CartItem> getAllCartItems();
-  void deleteCartItem(String id);
-  void addCartItem(Item item);
+  //void decreaseCartItems(String cartItemId);
+  //void increaseCartItems(String cartItemId);
+  void addCartItem(CartItem cartItem);
+  void deleteCartItem(String? cartItemId);
+  CartItem? getCartItem(String? cartItemId);
 }
 
 class CartDefaultRepository extends CartRepository {
@@ -25,13 +27,19 @@ class CartDefaultRepository extends CartRepository {
 
   }
 
+
   @override
-  void deleteCartItem(String id) async {
-    localDataSource.deleteCartItem(id);
+  void addCartItem(CartItem cartItem) {
+    localDataSource.addCartItem(cartItem);
   }
 
   @override
-  void addCartItem(Item item) {
-    localDataSource.addCartItem(item.toCartItem());
+  void deleteCartItem(String? cartItemId) {
+    localDataSource.deleteCartItem(cartItemId);
+  }
+
+  @override
+  CartItem? getCartItem(String? cartItemId) {
+    return localDataSource.getCartItem(cartItemId);
   }
 }

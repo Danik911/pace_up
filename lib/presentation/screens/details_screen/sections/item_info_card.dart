@@ -12,6 +12,11 @@ class _ItemInfoCard extends StatefulWidget {
 class _ItemInfoCardState extends State<_ItemInfoCard> {
   AnimationController get slideController =>
       ItemInfoStateProvider.of(context).slideController;
+  CartBloc get cartBloc => context.read<CartBloc>();
+
+  void _onIncreaseQuantity(Item? item, CartItem cartItem) {
+    cartBloc.add(CartItemDecrease(cartItemId: cartItem.id));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +60,7 @@ class _ItemInfoCardState extends State<_ItemInfoCard> {
                           },
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed:  () => _onIncreaseQuantity(item, item.toCartItem()),
                       child: Text(
                         'Add to catrt',
                         style:

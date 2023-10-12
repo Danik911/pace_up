@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:pace_up/data/source/local/models/item.dart';
 
 import '../../../domain/entities/cart_item.dart';
+import '../../../domain/entities/item.dart';
 
 class LocalDataSource {
 
@@ -71,53 +72,70 @@ class LocalDataSource {
     cart.add(cartItem);
   }
 
-  void deleteCartItem(String cartItemId) {
-  cart.removeWhere((element) => element.id == cartItemId);
+  void deleteCartItem(String? cartItemId) {
+    cart.removeWhere((element) => element.id == cartItemId);
   }
 
+  CartItem? getCartItem(String? cartItemId) {
+    return cart.firstWhere((element) => element.id == cartItemId);
+  }
 
-/*  final listOfItemsForTesting = [
+  /*final listOfItemsForTesting = [
     Item(
         id: "9",
         name: "test9",
         description: "some dummy text",
         image: 'assets/images/9.jpg',
-        size: ''
+        cost: "34"
     ),
     Item(
         id: "2",
         name: "test2",
         description: "some dummy text",
-        image: 'assets/images/2.jpg'),
+        image: 'assets/images/2.jpg',
+        cost: "34"
+
+    ),
     Item(
         id: "3",
         name: "test3",
         description: "some dummy text",
-        image: 'assets/images/3.jpg'),
+        image: 'assets/images/3.jpg',
+        cost: "34"),
     Item(
         id: "4",
         name: "test4",
         description: "some dummy text",
-        image: 'assets/images/4.jpg'),
+        image: 'assets/images/4.jpg',
+        cost: "34"),
     Item(
         id: "6",
         name: "test6",
         description: "some dummy text",
-        image: 'assets/images/6.jpg'),
+        image: 'assets/images/6.jpg',
+        cost: "34"),
     Item(
         id: "7",
         name: "test7",
         description: "some dummy text",
-        image: 'assets/images/7.jpg'),
+        image: 'assets/images/7.jpg',
+        cost: "34"),
     Item(
         id: "8",
         name: "test6",
         description: "some dummy text",
-        image: 'assets/images/8.jpg'),
+        image: 'assets/images/8.jpg',
+        cost: "34"),
     Item(
         id: "10",
         name: "test10",
         description: "some dummy text",
-        image: 'assets/images/10.jpg'),
-  ]*/
+        image: 'assets/images/10.jpg',
+        cost: "34"),
+  ];*/
+
+  List<CartItem> itemsToCartItems(List<Item> items){
+    return items.map((e) => e.toCartItem()).toList();
+
+  }
 }

@@ -127,14 +127,17 @@ class _ItemOverallInfoState extends State<_ItemOverallInfo>
         return Text(
           item.name,
           key: _targetTextKey,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.transparent,
             fontWeight: FontWeight.w900,
             fontSize: 22,
           ),
         );
       }),
-      rightIcon: Icons.favorite_border,
+      rightIcon: IconButton(
+          onPressed: () => AppNavigator.push(Routes.cart),
+          icon: Icon(Icons.shopping_cart)
+      )
     );
   }
 

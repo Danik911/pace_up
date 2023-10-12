@@ -12,6 +12,8 @@ import 'package:pace_up/states/item/item_event.dart';
 import '../../../../configs/colors.dart';
 import '../../../../configs/images.dart';
 import '../../../../states/item/item_selector.dart';
+import '../../../domain/entities/cart_item.dart';
+import '../../../routes.dart';
 import '../../theme/theme_cubit.dart';
 import '../../widgets/animated_fade.dart';
 import '../../widgets/auto_slideup_panel.dart';
@@ -19,6 +21,8 @@ import '../../widgets/hero.dart';
 import '../../widgets/main_app_bar.dart';
 import '../../widgets/main_tab_view.dart';
 import 'package:pace_up/presentation/widgets/slide_animation.dart';
+
+import '../cart_screen/bloc/cart_bloc.dart';
 part 'sections/backgroud_decoration.dart';
 part 'sections/item_info_card.dart';
 part 'sections/item_info_card_about.dart';
@@ -74,6 +78,5 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
       ),
     );
   }
-
 }
 

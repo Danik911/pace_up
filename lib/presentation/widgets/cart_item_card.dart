@@ -74,15 +74,15 @@ class CartItemCard extends StatelessWidget {
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
                         "${cartItem.quantity}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       )),
                   SizedBox(
                     width: 40,
                     height: 32,
                     child: OutlinedButton(
                       onPressed: () => increaseQuantity,
-                      child: Icon(Icons.add),
                       clipBehavior: Clip.antiAlias,
+                      child: const Icon(Icons.add),
                     ),
                   ),
                 ],

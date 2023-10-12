@@ -53,8 +53,11 @@ class _CartListState extends State<_CartList> {
     e.status != CartStateStatus.loading);
   }
 
-  void _onItemDelete(CartItem cartItem) {
-    cartBloc.add(CartItemDelete(cartItemId: cartItem.id));
+  void _onDecreaseQuantity(Item? item, CartItem cartItem) {
+    cartBloc.add(CartItemIncrease(cartItemId: cartItem.id));
+  }
+  void _onIncreaseQuantity(Item? item, CartItem cartItem) {
+    cartBloc.add(CartItemDecrease(cartItemId: cartItem.id));
   }
 
   @override
@@ -104,10 +107,13 @@ class _CartListState extends State<_CartList> {
             return SliverList(
               delegate: SliverChildBuilderDelegate(
                     (_, index) {
-                  return ItemSelector(index, (item, _) {
-                    return ItemCard(
-                      item,
-                      onItemPress: () => _onItemPress(item),
+                  return CartItemSelector(index, (cartItem, _) {
+                    return CartItemCard(
+                      cartItem,
+                      increaseQuantity:
+                          (item, cartItem) => _onIncreaseQuantity(cartItem.item, cartItem),
+                      decreaseQuantity:
+                          (item, cartItem) => _onDecreaseQuantity(cartItem.item, cartItem),
                     );
                   });
                 },
@@ -144,7 +150,7 @@ class _CartListState extends State<_CartList> {
             child: const Icon(
               Icons.warning_amber_rounded,
               size: 60,
-              color: Colors.black26,
+              color: Colors.red,
             ),
           ),
         ),

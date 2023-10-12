@@ -12,7 +12,8 @@ enum CartStateStatus {
   deleteItem,
   deleteItemSuccess,
   addItem,
-  addItemSuccess
+  addItemSuccess,
+  changeQuantityFailure,
 }
 class CartState {
   final CartStateStatus status;
@@ -48,6 +49,12 @@ class CartState {
   CartState asLoadFailure(Exception e) {
     return copyWith(
       status: CartStateStatus.loadFailure,
+      error: e,
+    );
+  }
+  CartState asChangeQuantityFailure(Exception e) {
+    return copyWith(
+      status: CartStateStatus.changeQuantityFailure,
       error: e,
     );
   }

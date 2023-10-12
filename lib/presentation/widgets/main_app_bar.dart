@@ -37,7 +37,7 @@ class MainSliverAppBar extends SliverAppBar {
           actions: [
             IconButton(
               padding: const EdgeInsets.symmetric(horizontal: mainAppbarPadding),
-              icon: Icon(Icons.favorite_border_outlined,
+              icon: Icon(Icons.add_shopping_cart,
                   color: Theme.of(context).textTheme.bodyLarge!.color),
               onPressed: onTrailingPress,
             ),
@@ -83,7 +83,7 @@ class MainSliverAppBar extends SliverAppBar {
 }
 
 class MainAppBar extends AppBar {
-  MainAppBar({super.key, Widget? title, IconData? rightIcon})
+  MainAppBar({super.key, Widget? title, IconButton? rightIcon})
       : super(
           title: title,
           backgroundColor: Colors.transparent,
@@ -96,10 +96,7 @@ class MainAppBar extends AppBar {
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: mainAppbarPadding),
-              child: Icon(
-                rightIcon,
-                color: Colors.white,
-              ),
+              child: rightIcon,
             ),
           ],
         );
