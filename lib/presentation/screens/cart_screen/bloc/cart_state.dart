@@ -14,12 +14,15 @@ enum CartStateStatus {
   addItem,
   addItemSuccess,
   changeQuantityFailure,
+  canLoadMore
 }
 class CartState {
   final CartStateStatus status;
   final List<CartItem> cartItems;
   final int selectedCartItemIndex;
   final Exception? error;
+  final bool canLoadMore;
+  final int page;
 
 
   CartItem get selectedCartItem => cartItems[selectedCartItemIndex];
@@ -29,6 +32,8 @@ class CartState {
     this.cartItems = const [],
     this.selectedCartItemIndex = 0,
     this.error,
+    this.canLoadMore = true,
+    this.page = 1,
   });
 
   const CartState.initial() : this._();
@@ -50,6 +55,12 @@ class CartState {
     return copyWith(
       status: CartStateStatus.loadFailure,
       error: e,
+    );
+  }
+  CartState asAddItemSuccess(List<CartItem> cartItems) {
+    return copyWith(
+      status: CartStateStatus.addItemSuccess,
+      cartItems: cartItems,
     );
   }
   CartState asChangeQuantityFailure(Exception e) {

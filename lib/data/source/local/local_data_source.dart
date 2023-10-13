@@ -8,7 +8,132 @@ import '../../../domain/entities/item.dart';
 
 class LocalDataSource {
 
-  final List<CartItem> cart = [];
+  List<CartItem> cart = [];
+
+ //Cart for testing
+ /* final List<CartItem> cartForTesting =[
+    CartItem(
+      id: "1",
+      quantity: 1,
+     item: Item(
+          id: "1",
+          name: "test9",
+          description: "some dummy text",
+          image: 'assets/images/9.jpg',
+          cost: "34"
+      )
+    ),
+    CartItem(
+        id: "2",
+        quantity: 1,
+        item: Item(
+            id: "2",
+            name: "test9",
+            description: "some dummy text",
+            image: 'assets/images/9.jpg',
+            cost: "34"
+        )
+    ),
+    CartItem(
+        id: "3",
+        quantity: 1,
+        item: Item(
+            id: "3",
+            name: "test9",
+            description: "some dummy text",
+            image: 'assets/images/9.jpg',
+            cost: "34"
+        )
+    ),
+    CartItem(
+        id: "4",
+        quantity: 1,
+        item: Item(
+            id: "4",
+            name: "test9",
+            description: "some dummy text",
+            image: 'assets/images/9.jpg',
+            cost: "34"
+        )
+    ),
+    CartItem(
+        id: "5",
+        quantity: 1,
+        item: Item(
+            id: "5",
+            name: "test9",
+            description: "some dummy text",
+            image: 'assets/images/9.jpg',
+            cost: "34"
+        )
+    ),
+    CartItem(
+        id: "6",
+        quantity: 1,
+        item: Item(
+            id: "6",
+            name: "test9",
+            description: "some dummy text",
+            image: 'assets/images/9.jpg',
+            cost: "34"
+        )
+    ),
+    CartItem(
+        id: "7",
+        quantity: 1,
+        item: Item(
+            id: "7",
+            name: "test9",
+            description: "some dummy text",
+            image: 'assets/images/9.jpg',
+            cost: "34"
+        )
+    ),
+    CartItem(
+        id: "8",
+        quantity: 1,
+        item: Item(
+            id: "8",
+            name: "test9",
+            description: "some dummy text",
+            image: 'assets/images/9.jpg',
+            cost: "34"
+        )
+    ),
+    CartItem(
+        id: "9",
+        quantity: 1,
+        item: Item(
+            id: "9",
+            name: "test9",
+            description: "some dummy text",
+            image: 'assets/images/9.jpg',
+            cost: "34"
+        )
+    ),
+    CartItem(
+        id: "10",
+        quantity: 1,
+        item: Item(
+            id: "10",
+            name: "test9",
+            description: "some dummy text",
+            image: 'assets/images/9.jpg',
+            cost: "34"
+        )
+    ),
+    CartItem(
+        id: "11",
+        quantity: 1,
+        item: Item(
+            id: "11",
+            name: "test9",
+            description: "some dummy text",
+            image: 'assets/images/9.jpg',
+            cost: "34"
+        )
+    ),
+  ];*/
 
   static Future<void> initialize() async {
     await Hive.initFlutter();

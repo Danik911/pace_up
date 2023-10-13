@@ -7,7 +7,7 @@ import '../../domain/entities/item.dart';
 class ItemImage extends StatelessWidget {
   static const Size _cacheMaxSize = Size(700, 700);
 
-  final Item item;
+  final Item? item;
   final EdgeInsets padding;
   final bool useHero;
   final Size size;
@@ -29,13 +29,13 @@ class ItemImage extends StatelessWidget {
     return HeroMode(
       enabled: useHero,
       child: Hero(
-        tag: item.image,
+        tag: item?.id ?? "-1",
         child: AnimatedPadding(
           duration: const Duration(milliseconds: 600),
           curve: Curves.easeOutQuint,
           padding: padding,
           child: CachedNetworkImage(
-            imageUrl: item.image,
+            imageUrl: item?.image ?? "assets/images/1.jpg",
             useOldImageOnUrlChange: true,
             maxWidthDiskCache: _cacheMaxSize.width.toInt(),
             maxHeightDiskCache: _cacheMaxSize.height.toInt(),

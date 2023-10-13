@@ -14,8 +14,8 @@ class _ItemInfoCardState extends State<_ItemInfoCard> {
       ItemInfoStateProvider.of(context).slideController;
   CartBloc get cartBloc => context.read<CartBloc>();
 
-  void _onIncreaseQuantity(Item? item, CartItem cartItem) {
-    cartBloc.add(CartItemDecrease(cartItemId: cartItem.id));
+  void _onAddItemInCart(CartItem cartItem) {
+    cartBloc.add(CartItemAddToCart(cartItem: cartItem));
   }
 
   @override
@@ -60,7 +60,7 @@ class _ItemInfoCardState extends State<_ItemInfoCard> {
                           },
                         ),
                       ),
-                      onPressed:  () => _onIncreaseQuantity(item, item.toCartItem()),
+                      onPressed:  () => _onAddItemInCart(item.toCartItem()),
                       child: Text(
                         'Add to catrt',
                         style:

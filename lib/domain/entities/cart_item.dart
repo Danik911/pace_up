@@ -1,7 +1,9 @@
+import 'dart:ui';
+
 import 'item.dart';
 
 class CartItem {
-  final String? id;
+  String? id;
   int? quantity;
   Item? item;
 
@@ -13,6 +15,12 @@ class CartItem {
         quantity: quantity ?? this.quantity,
         item: item ?? this.item);
   }
+
+  @override
+  bool operator ==(Object other) => other is CartItem && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode;
 
   Map<String, dynamic> toMap() {
     return {'quantity': quantity, 'product_id': item?.id};

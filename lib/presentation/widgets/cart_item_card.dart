@@ -4,6 +4,7 @@ import 'package:pace_up/domain/entities/cart_item.dart';
 
 import '../../configs/images.dart';
 import '../../domain/entities/item.dart';
+import 'item_image.dart';
 
 class CartItemCard extends StatelessWidget {
   final CartItem cartItem;
@@ -31,9 +32,10 @@ class CartItemCard extends StatelessWidget {
                 right: 0,
                 bottom: 40,
                 child: Center(
-                    child: Image.asset(
-                      cartItem.item?.image ?? "${AppImages.model_1}",
-                      width: 140,
+                    child: ItemImage(
+                      item: cartItem.item,
+                      size: Size(25,25),
+
                     )))
           ],
         ),
@@ -52,7 +54,7 @@ class CartItemCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                NumberFormat.simpleCurrency().format(cartItem.item?.cost ?? 0),
+                cartItem.item?.cost ?? "0",
                 style: const TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 24),
               ),
@@ -73,7 +75,7 @@ class CartItemCard extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
-                        "${cartItem.quantity}",
+                        "${cartItem.quantity ?? "1"}",
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       )),
                   SizedBox(
