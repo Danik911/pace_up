@@ -1,15 +1,15 @@
 part of '../details_screen.dart';
 
-class _ItemInfoCard extends StatefulWidget {
+class _ItemInfoCardBottomPart extends StatefulWidget {
   static const double minCardHeightFraction = 0.54;
 
-  const _ItemInfoCard();
+  const _ItemInfoCardBottomPart();
 
   @override
-  State<_ItemInfoCard> createState() => _ItemInfoCardState();
+  State<_ItemInfoCardBottomPart> createState() => _ItemInfoCardBottomPartState();
 }
 
-class _ItemInfoCardState extends State<_ItemInfoCard> {
+class _ItemInfoCardBottomPartState extends State<_ItemInfoCardBottomPart> {
   AnimationController get slideController =>
       ItemInfoStateProvider.of(context).slideController;
   CartBloc get cartBloc => context.read<CartBloc>();
@@ -24,7 +24,7 @@ class _ItemInfoCardState extends State<_ItemInfoCard> {
     final safeArea = MediaQuery.of(context).padding;
     final appBarHeight = AppBar().preferredSize.height;
 
-    final cardMinHeight = screenHeight * _ItemInfoCard.minCardHeightFraction;
+    final cardMinHeight = screenHeight * _ItemInfoCardBottomPart.minCardHeightFraction;
     final cardMaxHeight = screenHeight - appBarHeight - safeArea.top;
 
     return AutoSlideUpPanel(

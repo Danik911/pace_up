@@ -20,7 +20,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       _onLoadStarted,
       transformer: (events, mapper) => events.switchMap(mapper),
     );
-    on<CartItemIncrease>(_onIncreaseQuantity);
+    on<CartItemIncrease>(_onIncreaseQuantity,
+        );
     on<CartItemDecrease>(_onDecreaseQuantity);
     on<CartItemAddToCart>(_onCartItemAddToCart);
     on<CartLoadMoreStarted>(
@@ -51,7 +52,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         page: state.page + 1,
         limit: itemsPerPage,
       );
-    }on Exception catch (e) {
+    } on Exception catch (e) {
       emit(state.asLoadFailure(e));
     }
   }
@@ -67,9 +68,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final cartItem = _cartRepository.getCartItem(event.cartItemId);
       if (cartItem == null) return;
       var cartItemsQuantity = cartItem.quantity ?? 1;
-      final increasedCartItem = cartItem.copyWith(
-          quantity: cartItemsQuantity++);
-
+      final increasedCartItem =
+      cartItem.copyWith(quantity: cartItemsQuantity++);
 
       emit(state.copyWith(
         cartItems: state.cartItems..setAll(cartItemIndex, [increasedCartItem]),
@@ -82,23 +82,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   void _onIncreaseQuantity(CartItemIncrease event,
       Emitter<CartState> emit) async {
     try {
-      final cartItemIndex = state.cartItems.indexWhere(
-            (item) => item.id == event.cartItemId,
+/*      final cartItemIndex = state.cartItems.indexWhere(
+            (item) => item.id == event.cartItemId
       );
-
-      if (cartItemIndex < 0 || cartItemIndex >= state.cartItems.length) return;
-      final cartItem = _cartRepository.getCartItem(event.cartItemId);
-      if (cartItem == null) return;
-      var cartItemsQuantity = cartItem.quantity ?? 1;
-      final increasedCartItem = cartItem.copyWith(
-          quantity: cartItemsQuantity++);
+      if (cartItemIndex < 0 || cartItemIndex >= state.cartItems.length) return;*/
+      final cartItemId = event.cartItemId;
+      if(cartItemId == null) return;
 
 
-      emit(state.copyWith(
-        cartItems: state.cartItems..setAll(cartItemIndex, [increasedCartItem]),
-      ));
+      _cartRepository.increaseCartItems(cartItemId);
+      final items =  _cartRepository.getAllCartItems();
+
+      emit(state.asIncreaseQuantitySuccess(items) );
     } on Exception catch (e) {
-      emit(state.asChangeQuantityFailure(e));
+    emit(state.asChangeQuantityFailure(e));
     }
   }
 

@@ -9,7 +9,7 @@ import 'item_image.dart';
 class CartItemCard extends StatelessWidget {
   final CartItem cartItem;
   final void Function(Item item, CartItem cartItem)? decreaseQuantity;
-  final void Function(Item item, CartItem cartItem)? increaseQuantity;
+  final void Function()? increaseQuantity;
 
   const CartItemCard(this.cartItem,
       {super.key, this.decreaseQuantity, this.increaseQuantity});
@@ -75,14 +75,14 @@ class CartItemCard extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
-                        "${cartItem.quantity ?? "1"}",
+                        "${cartItem.quantity}",
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       )),
                   SizedBox(
                     width: 40,
                     height: 32,
                     child: OutlinedButton(
-                      onPressed: () => increaseQuantity,
+                      onPressed: increaseQuantity,
                       clipBehavior: Clip.antiAlias,
                       child: const Icon(Icons.add),
                     ),

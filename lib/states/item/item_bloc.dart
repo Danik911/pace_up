@@ -32,7 +32,7 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
 
       final canLoadMore = items.length >= itemsPerPage;
 
-      emit(state.asLoadSuccess(items, canLoadMore: canLoadMore));
+      emit(state.asLoadSuccess(items, canLoadMore: canLoadMore) );
     } on Exception catch (e) {
       emit(state.asLoadFailure(e));
     }

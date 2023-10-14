@@ -8,8 +8,8 @@ abstract class CartRepository {
 
   Future<List<CartItem>> getItems({required int limit, required int page});
 
-  //void decreaseCartItems(String cartItemId);
-  //void increaseCartItems(String cartItemId);
+ // void decreaseCartItems(String cartItemId);
+ void increaseCartItems(String cartItemId);
   void addCartItem(CartItem cartItem);
 
   void deleteCartItem(String? cartItemId);
@@ -52,5 +52,21 @@ class CartDefaultRepository extends CartRepository {
     final itemEntities = localDataSource.cart;
 
     return itemEntities;
+  }
+
+/*  @override
+  void decreaseCartItems(String cartItemId) {
+    // TODO: implement decreaseCartItems
+  }*/
+
+  @override
+  void increaseCartItems(String cartItemId) {
+    final cartItem = localDataSource.cart.firstWhere((element) => element.id == cartItemId);
+    final cartItemIndex =  localDataSource.cart.indexWhere(
+            (item) => item.id == cartItemId
+    );
+    localDataSource.cart.add(cartItem.copyWith(quantity: cartItem.quantity++));
+    localDataSource.cart.remove(cartItem);
+
   }
 }

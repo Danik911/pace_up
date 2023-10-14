@@ -54,10 +54,11 @@ class _CartListState extends State<_CartList> {
   }
 
   void _onDecreaseQuantity(Item? item, CartItem cartItem) {
-    cartBloc.add(CartItemIncrease(cartItemId: cartItem.id));
-  }
-  void _onIncreaseQuantity(Item? item, CartItem cartItem) {
     cartBloc.add(CartItemDecrease(cartItemId: cartItem.id));
+  }
+  void _onIncreaseQuantity(CartItem cartItem) {
+    cartBloc.add(CartItemIncrease(cartItemId: cartItem.id));
+
   }
 
   @override
@@ -78,6 +79,7 @@ class _CartListState extends State<_CartList> {
           case CartStateStatus.loadSuccess:
           case CartStateStatus.loadMoreSuccess:
           case CartStateStatus.loadingMore:
+          case CartStateStatus.increaseQuantitySuccess:
             return _buildList();
 
           case CartStateStatus.loadFailure:
@@ -111,7 +113,7 @@ class _CartListState extends State<_CartList> {
                     return CartItemCard(
                       cartItem,
                       increaseQuantity:
-                          (item, cartItem) => _onIncreaseQuantity(cartItem.item, cartItem),
+                          () => _onIncreaseQuantity(cartItem),
                       decreaseQuantity:
                           (item, cartItem) => _onDecreaseQuantity(cartItem.item, cartItem),
                     );

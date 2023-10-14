@@ -1,6 +1,5 @@
 part of 'cart_bloc.dart';
 
-
 enum CartStateStatus {
   initial,
   loading,
@@ -13,9 +12,11 @@ enum CartStateStatus {
   deleteItemSuccess,
   addItem,
   addItemSuccess,
+  increaseQuantitySuccess,
   changeQuantityFailure,
   canLoadMore
 }
+
 class CartState {
   final CartStateStatus status;
   final List<CartItem> cartItems;
@@ -23,7 +24,6 @@ class CartState {
   final Exception? error;
   final bool canLoadMore;
   final int page;
-
 
   CartItem get selectedCartItem => cartItems[selectedCartItemIndex];
 
@@ -51,18 +51,27 @@ class CartState {
     );
   }
 
+  CartState asIncreaseQuantitySuccess(List<CartItem> cartItems) {
+    return copyWith(
+      status: CartStateStatus.increaseQuantitySuccess,
+      cartItems: cartItems,
+    );
+  }
+
   CartState asLoadFailure(Exception e) {
     return copyWith(
       status: CartStateStatus.loadFailure,
       error: e,
     );
   }
+
   CartState asAddItemSuccess(List<CartItem> cartItems) {
     return copyWith(
       status: CartStateStatus.addItemSuccess,
       cartItems: cartItems,
     );
   }
+
   CartState asChangeQuantityFailure(Exception e) {
     return copyWith(
       status: CartStateStatus.changeQuantityFailure,
@@ -81,7 +90,6 @@ class CartState {
     );
   }
 
-
   CartState copyWith({
     CartStateStatus? status,
     List<CartItem>? cartItems,
@@ -91,7 +99,8 @@ class CartState {
     return CartState._(
       status: status ?? this.status,
       cartItems: cartItems ?? this.cartItems,
-      selectedCartItemIndex: selectedCartItemIndex ?? this.selectedCartItemIndex,
+      selectedCartItemIndex:
+          selectedCartItemIndex ?? this.selectedCartItemIndex,
       error: error ?? this.error,
     );
   }

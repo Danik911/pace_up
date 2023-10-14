@@ -71,7 +71,7 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
         body: Stack(
           children: <Widget>[
             _BackgroundDecoration(),
-            _ItemInfoCard(),
+            _ItemInfoCardBottomPart(),
             _ItemOverallInfo()
           ],
         ),

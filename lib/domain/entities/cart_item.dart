@@ -4,10 +4,10 @@ import 'item.dart';
 
 class CartItem {
   String? id;
-  int? quantity;
+  int quantity;
   Item? item;
 
-  CartItem({this.id, this.quantity, this.item});
+  CartItem({this.id, this.quantity = 1, this.item});
 
   CartItem copyWith({String? id, int? quantity, Item? item}) {
     return CartItem(
