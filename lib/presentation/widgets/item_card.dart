@@ -63,6 +63,7 @@ class ItemCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: ItemImage(
+        heroTag: item.name,
         size: Size.square(itemWidth * 0.4),
         item: item,
       ),

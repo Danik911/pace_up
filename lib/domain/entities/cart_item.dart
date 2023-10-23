@@ -1,13 +1,15 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
+
 import 'item.dart';
 
 class CartItem {
-  String? id;
+  final String? id;
   int quantity;
-  Item? item;
+  final Item? item;
 
-  CartItem({this.id, this.quantity = 1, this.item});
+  CartItem({this.id, this.quantity = 0, this.item});
 
   CartItem copyWith({String? id, int? quantity, Item? item}) {
     return CartItem(

@@ -9,15 +9,14 @@ class _CartList extends StatefulWidget {
 
 class _CartListState extends State<_CartList> {
   static const double _endReachedThreshold = 200;
-
   final GlobalKey<NestedScrollViewState> _scrollKey = GlobalKey();
 
   CartBloc get cartBloc => context.read<CartBloc>();
 
+
   @override
   void initState() {
     super.initState();
-
     scheduleMicrotask(() {
       cartBloc.add(const CartItemLoadStarted());
       _scrollKey.currentState?.innerController.addListener(_onScroll);
@@ -37,8 +36,8 @@ class _CartListState extends State<_CartList> {
 
     if (innerController == null || !innerController.hasClients) return;
 
-    final thresholdReached = innerController.position.extentAfter <
-        _endReachedThreshold;
+    final thresholdReached =
+        innerController.position.extentAfter < _endReachedThreshold;
 
     if (thresholdReached) {
       // Load more!
@@ -49,24 +48,23 @@ class _CartListState extends State<_CartList> {
   Future _onRefresh() async {
     cartBloc.add(const CartItemLoadStarted());
 
-    return cartBloc.stream.firstWhere((e) =>
-    e.status != CartStateStatus.loading);
+    return cartBloc.stream
+        .firstWhere((e) => e.status != CartStateStatus.loading);
   }
 
-  void _onDecreaseQuantity(Item? item, CartItem cartItem) {
-    cartBloc.add(CartItemDecrease(cartItemId: cartItem.id));
+  void _onDecreaseQuantity(CartItem cartItem) async {
+    cartBloc.add(CartItemDecrease(cartItem));
   }
-  void _onIncreaseQuantity(CartItem cartItem) {
-    cartBloc.add(CartItemIncrease(cartItemId: cartItem.id));
 
+  void _onIncreaseQuantity(CartItem cartItem) async {
+    cartBloc.add(CartItemIncrease(cartItem));
   }
 
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
       key: _scrollKey,
-      headerSliverBuilder: (_, __) =>
-      [
+      headerSliverBuilder: (_, __) => [
         MainSliverAppBar(
           context: context,
         ),
@@ -108,15 +106,14 @@ class _CartListState extends State<_CartList> {
           sliver: NumberOfCartItemsSelector((numberOfItems) {
             return SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (_, index) {
+                (_, index) {
                   return CartItemSelector(index, (cartItem, _) {
                     return CartItemCard(
-                      cartItem,
-                      increaseQuantity:
-                          () => _onIncreaseQuantity(cartItem),
-                      decreaseQuantity:
-                          (item, cartItem) => _onDecreaseQuantity(cartItem.item, cartItem),
-                    );
+                        key: ValueKey(cartBloc.state.quantity),
+                        heroTag: "cart_list$index",
+                        cartItem,
+                        increaseQuantity: () => _onIncreaseQuantity(cartItem),
+                        decreaseQuantity: () => _onDecreaseQuantity(cartItem));
                   });
                 },
                 childCount: numberOfItems,

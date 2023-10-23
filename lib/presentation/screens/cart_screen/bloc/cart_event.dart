@@ -1,9 +1,10 @@
 part of 'cart_bloc.dart';
 
-abstract class CartEvent extends Equatable {
+abstract class CartEvent extends Equatable  {
   const CartEvent();
   @override
   List<Object> get props => [];
+
 }
 
 class CartItemLoadStarted extends CartEvent {
@@ -18,25 +19,34 @@ class CartItemAddToCart extends CartEvent{
   final CartItem cartItem;
 
   const CartItemAddToCart({required this.cartItem});
+
+  @override
+  List<Object> get props => [cartItem];
 }
 
 class CartItemIncrease extends CartEvent {
-  final String? cartItemId;
+  final CartItem cartItem;
 
-  const CartItemIncrease({this.cartItemId});
+  const CartItemIncrease(this.cartItem);
+
+  @override
+  List<Object> get props => [cartItem];
 }
 
 class CartItemDecrease extends CartEvent {
-  final String? cartItemId;
+  final CartItem cartItem;
 
-  const CartItemDecrease({ this.cartItemId});
+  const CartItemDecrease(this.cartItem);
+
+  @override
+  List<Object> get props => [cartItem];
 }
 
 
 class CartItemUpdated extends CartEvent {
   final List<CartItem> cartItems;
 
-  CartItemUpdated(this.cartItems);
+  const CartItemUpdated(this.cartItems);
 
   @override
   List<Object> get props => [cartItems];

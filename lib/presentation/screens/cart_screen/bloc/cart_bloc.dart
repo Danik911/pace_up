@@ -10,18 +10,18 @@ part 'cart_event.dart';
 
 part 'cart_state.dart';
 
-class CartBloc extends Bloc<CartEvent, CartState> {
+class CartBloc extends Bloc<CartEvent, CartStateDefault> {
   static const int itemsPerPage = 20;
 
   final CartRepository _cartRepository;
 
-  CartBloc(this._cartRepository) : super(const CartState.initial()) {
+  CartBloc(this._cartRepository) : super(CartStateDefault.initial()) {
     on<CartItemLoadStarted>(
       _onLoadStarted,
       transformer: (events, mapper) => events.switchMap(mapper),
     );
-    on<CartItemIncrease>(_onIncreaseQuantity,
-        );
+    on<CartItemUpdated>(_onCartItemUpdated);
+    on<CartItemIncrease>(_onIncreaseQuantity);
     on<CartItemDecrease>(_onDecreaseQuantity);
     on<CartItemAddToCart>(_onCartItemAddToCart);
     on<CartLoadMoreStarted>(
@@ -30,8 +30,19 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     );
   }
 
-  void _onLoadStarted(CartItemLoadStarted event,
-      Emitter<CartState> emit) async {
+  void _onCartItemUpdated(
+      CartItemUpdated event, Emitter<CartStateDefault> emit) async {
+    try {
+      emit(state.asLoading());
+      final items = await _cartRepository.getAllCartItems();
+      emit(state.asUpdateCartItems(items));
+    } on Exception catch (e) {
+      emit(state.asLoadFailure(e));
+    }
+  }
+
+  void _onLoadStarted(
+      CartItemLoadStarted event, Emitter<CartStateDefault> emit) async {
     try {
       emit(state.asLoading());
       final items = await _cartRepository.getAllCartItems();
@@ -41,8 +52,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
-  void _onCartLoadMoreStarted(CartLoadMoreStarted event,
-      Emitter<CartState> emit) async {
+  void _onCartLoadMoreStarted(
+      CartLoadMoreStarted event, Emitter<CartStateDefault> emit) async {
     try {
       if (!state.canLoadMore) return;
 
@@ -57,57 +68,57 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
-  void _onDecreaseQuantity(CartItemDecrease event,
-      Emitter<CartState> emit) async {
+  void _onIncreaseQuantity(
+      CartItemIncrease event, Emitter<CartStateDefault> emit) async {
     try {
-      final cartItemIndex = state.cartItems.indexWhere(
-            (item) => item.id == event.cartItemId,
-      );
+      final cartItemIndex =
+          state.cartItems.indexWhere((item) => item.id == event.cartItem.id);
 
       if (cartItemIndex < 0 || cartItemIndex >= state.cartItems.length) return;
-      final cartItem = _cartRepository.getCartItem(event.cartItemId);
-      if (cartItem == null) return;
-      var cartItemsQuantity = cartItem.quantity ?? 1;
-      final increasedCartItem =
-      cartItem.copyWith(quantity: cartItemsQuantity++);
 
-      emit(state.copyWith(
-        cartItems: state.cartItems..setAll(cartItemIndex, [increasedCartItem]),
-      ));
+      final cartItem = state.cartItems[cartItemIndex];
+      if (cartItem.id == null) return;
+      var increasedItem = await {cartItem.id!: cartItem.quantity++};
+      print(increasedItem);
+      emit(state.asIncreaseQuantitySuccess(increasedItem));
     } on Exception catch (e) {
       emit(state.asChangeQuantityFailure(e));
     }
   }
 
-  void _onIncreaseQuantity(CartItemIncrease event,
-      Emitter<CartState> emit) async {
+  void _onDecreaseQuantity(
+      CartItemDecrease event, Emitter<CartStateDefault> emit) async {
     try {
-/*      final cartItemIndex = state.cartItems.indexWhere(
-            (item) => item.id == event.cartItemId
-      );
-      if (cartItemIndex < 0 || cartItemIndex >= state.cartItems.length) return;*/
-      final cartItemId = event.cartItemId;
-      if(cartItemId == null) return;
+      final cartItemIndex =
+          state.cartItems.indexWhere((item) => item.id == event.cartItem.id);
 
+      if (cartItemIndex < 0 || cartItemIndex >= state.cartItems.length) return;
 
-      _cartRepository.increaseCartItems(cartItemId);
-      final items =  _cartRepository.getAllCartItems();
-
-      emit(state.asIncreaseQuantitySuccess(items) );
+      final cartItem = state.cartItems[cartItemIndex];
+      if (cartItem.id == null) return;
+      var decreasedItem = await {cartItem.id!: cartItem.quantity--};
+      print(decreasedItem);
+      if (decreasedItem.values.first <= 1) {
+        state.cartItems
+            .removeWhere((element) => element.id == event.cartItem.id);
+        emit(state.asUpdateCartItems(state.cartItems));
+      } else {
+        emit(state.asDecreaseQuantitySuccess(decreasedItem));
+      }
     } on Exception catch (e) {
-    emit(state.asChangeQuantityFailure(e));
+      emit(state.asChangeQuantityFailure(e));
     }
   }
 
-  void _onCartItemAddToCart(CartItemAddToCart event,
-      Emitter<CartState> emit) async {
+  void _onCartItemAddToCart(
+      CartItemAddToCart event, Emitter<CartStateDefault> emit) async {
     try {
       if (state.cartItems.contains(event.cartItem)) return;
-      final cartItemToAdd = event.cartItem;
-      _cartRepository.addCartItem(cartItemToAdd);
-      final newCartItems = await _cartRepository.getAllCartItems();
+      final cartItemToAdd = event.cartItem.copyWith(quantity: 1);
+      state.cartItems.add(cartItemToAdd);
+      final newCartItems = state.cartItems;
 
-      emit(state.asAddItemSuccess(newCartItems));
+      emit(state.asUpdateCartItems(newCartItems));
     } on Exception catch (e) {
       emit(state.asChangeQuantityFailure(e));
     }

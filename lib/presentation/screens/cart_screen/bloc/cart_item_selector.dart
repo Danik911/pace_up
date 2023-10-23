@@ -5,9 +5,9 @@ import 'package:pace_up/domain/entities/cart_item.dart';
 import 'package:pace_up/presentation/screens/cart_screen/bloc/cart_bloc.dart';
 
 
-class CartItemStateSelector<T> extends BlocSelector<CartBloc, CartState, T> {
+class CartItemStateSelector<T> extends BlocSelector<CartBloc, CartStateDefault, T> {
   CartItemStateSelector({super.key,
-    required T Function(CartState) selector,
+    required T Function(CartStateDefault) selector,
     required Widget Function(T) builder,
   }) : super(
     selector: selector,
@@ -46,6 +46,7 @@ class CartItemSelector extends CartItemStateSelector<CartItemSelectorState> {
     selector: (state) => CartItemSelectorState(
       state.cartItems[index],
       state.selectedCartItemIndex == index,
+      state.cartItems[index].quantity
     ),
     builder: (value) => builder(value.cartItem, value.selected),
   );
@@ -53,11 +54,13 @@ class CartItemSelector extends CartItemStateSelector<CartItemSelectorState> {
 
 class CartItemSelectorState {
   final CartItem cartItem;
+  final int cartItemQuantity;
   final bool selected;
 
-  const CartItemSelectorState(this.cartItem, this.selected);
+  const CartItemSelectorState(this.cartItem, this.selected, this.cartItemQuantity);
 
   @override
   bool operator ==(Object other) =>
-      other is CartItemSelectorState && cartItem == other.cartItem && selected == other.selected;
+      other is CartItemSelectorState && cartItem == other.cartItem && selected == other.selected &&
+  cartItemQuantity == other.cartItemQuantity;
 }

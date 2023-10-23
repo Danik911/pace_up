@@ -1,6 +1,8 @@
 
 import '../../domain/entities/item.dart';
 
+
+
 enum ItemStateStatus {
   initial,
   loading,
@@ -18,6 +20,7 @@ class ItemState {
   final int page;
   final Exception? error;
   final bool canLoadMore;
+
 
   Item get selectedItem => items[selectedItemIndex];
 

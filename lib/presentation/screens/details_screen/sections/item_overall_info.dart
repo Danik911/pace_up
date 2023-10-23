@@ -240,6 +240,7 @@ class _ItemOverallInfoState extends State<_ItemOverallInfo>
                             child: Stack(
                                 children: [
                                   ItemImage(
+                                    heroTag: 'tag$index',
                                     item: item,
                                     size: Size.square(itemSize * 0.7),
                                     padding: EdgeInsets.symmetric(

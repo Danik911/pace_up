@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,7 @@ class ItemImage extends StatelessWidget {
   final Size size;
   final ImageProvider placeholder;
   final Color? tintColor;
+  final String? heroTag;
 
   const ItemImage({
     Key? key,
@@ -22,6 +25,7 @@ class ItemImage extends StatelessWidget {
     this.useHero = true,
     this.placeholder = AppImages.model_1,
     this.tintColor,
+    this.heroTag
   }) : super(key: key);
 
   @override
@@ -29,7 +33,7 @@ class ItemImage extends StatelessWidget {
     return HeroMode(
       enabled: useHero,
       child: Hero(
-        tag: item?.id ?? "-1",
+        tag: heroTag.toString(),
         child: AnimatedPadding(
           duration: const Duration(milliseconds: 600),
           curve: Curves.easeOutQuint,

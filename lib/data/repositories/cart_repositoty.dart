@@ -62,11 +62,17 @@ class CartDefaultRepository extends CartRepository {
   @override
   void increaseCartItems(String cartItemId) {
     final cartItem = localDataSource.cart.firstWhere((element) => element.id == cartItemId);
+
+    //final cartItemQuantity = cartItem.quantity++;
     final cartItemIndex =  localDataSource.cart.indexWhere(
             (item) => item.id == cartItemId
     );
-    localDataSource.cart.add(cartItem.copyWith(quantity: cartItem.quantity++));
+
+    //localDataSource.cart[cartItemIndex] = cartItem.copyWith(quantity: cartItemQuantity);
+   // localDataSource.cart.add(cartItem.copyWith(quantity: cartItemQuantity));
     localDataSource.cart.remove(cartItem);
 
   }
+
+
 }

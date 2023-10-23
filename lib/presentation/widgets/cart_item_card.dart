@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pace_up/domain/entities/cart_item.dart';
-
-import '../../configs/images.dart';
-import '../../domain/entities/item.dart';
 import 'item_image.dart';
 
-class CartItemCard extends StatelessWidget {
+class CartItemCard extends StatefulWidget {
   final CartItem cartItem;
-  final void Function(Item item, CartItem cartItem)? decreaseQuantity;
-  final void Function()? increaseQuantity;
+  final void Function()? decreaseQuantity;
+  final void Function() increaseQuantity;
+  final String? heroTag;
 
   const CartItemCard(this.cartItem,
-      {super.key, this.decreaseQuantity, this.increaseQuantity});
+      {super.key, this.decreaseQuantity, required this.increaseQuantity, this.heroTag});
+
+
 
   @override
-  Widget build(BuildContext context){
+  State<CartItemCard> createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItemCard> {
+ late CartItem _cartItem;
+
+  @override
+  Widget build(BuildContext context) {
+   _cartItem = widget.cartItem;
     return Row(
       children: [
         Stack(
@@ -33,10 +41,10 @@ class CartItemCard extends StatelessWidget {
                 bottom: 40,
                 child: Center(
                     child: ItemImage(
-                      item: cartItem.item,
-                      size: Size(25,25),
-
-                    )))
+                  heroTag: widget.heroTag,
+                  item: _cartItem.item,
+                  size: Size(25, 25),
+                )))
           ],
         ),
         Padding(
@@ -45,7 +53,7 @@ class CartItemCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                cartItem.item?.name ?? "",
+                _cartItem.item?.name ?? "",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -54,9 +62,9 @@ class CartItemCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                cartItem.item?.cost ?? "0",
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 24),
+                _cartItem.item?.cost ?? "0",
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
               ),
               const SizedBox(
                 height: 10,
@@ -67,7 +75,7 @@ class CartItemCard extends StatelessWidget {
                     width: 40,
                     height: 30,
                     child: OutlinedButton(
-                      onPressed: () => decreaseQuantity,
+                      onPressed: widget.decreaseQuantity,
                       clipBehavior: Clip.antiAlias,
                       child: const Icon(Icons.remove),
                     ),
@@ -75,14 +83,14 @@ class CartItemCard extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
-                        "${cartItem.quantity}",
+                        "${_cartItem.quantity}",
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       )),
                   SizedBox(
                     width: 40,
                     height: 32,
                     child: OutlinedButton(
-                      onPressed: increaseQuantity,
+                      onPressed: widget.increaseQuantity,
                       clipBehavior: Clip.antiAlias,
                       child: const Icon(Icons.add),
                     ),
@@ -95,5 +103,4 @@ class CartItemCard extends StatelessWidget {
       ],
     );
   }
-
 }
