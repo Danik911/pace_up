@@ -10,6 +10,7 @@ import 'package:pace_up/states/item/item_bloc.dart';
 import 'core/network_manager.dart';
 import 'data/source/local/local_data_source.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

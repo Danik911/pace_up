@@ -20,7 +20,6 @@ class CartBloc extends Bloc<CartEvent, CartStateDefault> {
       _onLoadStarted,
       transformer: (events, mapper) => events.switchMap(mapper),
     );
-    on<CartItemUpdated>(_onCartItemUpdated);
     on<CartItemIncrease>(_onIncreaseQuantity);
     on<CartItemDecrease>(_onDecreaseQuantity);
     on<CartItemAddToCart>(_onCartItemAddToCart);
@@ -28,20 +27,23 @@ class CartBloc extends Bloc<CartEvent, CartStateDefault> {
       _onCartLoadMoreStarted,
       transformer: (events, mapper) => events.switchMap(mapper),
     );
+    on<CartItemChangeSum>(_onCartItemChangeSum);
   }
 
+/*
   void _onCartItemUpdated(
       CartItemUpdated event, Emitter<CartStateDefault> emit) async {
     try {
       emit(state.asLoading());
       final items = await _cartRepository.getAllCartItems();
-      emit(state.asUpdateCartItems(items));
+      emit(state.asItemDelete(items, state));
     } on Exception catch (e) {
       emit(state.asLoadFailure(e));
     }
   }
+*/
 
-  void _onLoadStarted(
+  Future<void> _onLoadStarted(
       CartItemLoadStarted event, Emitter<CartStateDefault> emit) async {
     try {
       emit(state.asLoading());
@@ -52,7 +54,7 @@ class CartBloc extends Bloc<CartEvent, CartStateDefault> {
     }
   }
 
-  void _onCartLoadMoreStarted(
+  Future<void> _onCartLoadMoreStarted(
       CartLoadMoreStarted event, Emitter<CartStateDefault> emit) async {
     try {
       if (!state.canLoadMore) return;
@@ -79,7 +81,9 @@ class CartBloc extends Bloc<CartEvent, CartStateDefault> {
       final cartItem = state.cartItems[cartItemIndex];
       if (cartItem.id == null) return;
       var increasedItem = await {cartItem.id!: cartItem.quantity++};
-      print(increasedItem);
+      //state.cartItems[cartItemIndex] = cartItem.copyWith(quantity: increasedItem[cartItem.id]);
+      //final cartItems = state.cartItems;
+      // state.copyWith(sum: cartItems.calculate(cartItems));
       emit(state.asIncreaseQuantitySuccess(increasedItem));
     } on Exception catch (e) {
       emit(state.asChangeQuantityFailure(e));
@@ -101,7 +105,8 @@ class CartBloc extends Bloc<CartEvent, CartStateDefault> {
       if (decreasedItem.values.first <= 1) {
         state.cartItems
             .removeWhere((element) => element.id == event.cartItem.id);
-        emit(state.asUpdateCartItems(state.cartItems));
+        final updatedItems = state.cartItems;
+        emit(state.asItemDelete(updatedItems));
       } else {
         emit(state.asDecreaseQuantitySuccess(decreasedItem));
       }
@@ -110,17 +115,62 @@ class CartBloc extends Bloc<CartEvent, CartStateDefault> {
     }
   }
 
-  void _onCartItemAddToCart(
+  Future<void> _onCartItemAddToCart(
       CartItemAddToCart event, Emitter<CartStateDefault> emit) async {
     try {
       if (state.cartItems.contains(event.cartItem)) return;
-      final cartItemToAdd = event.cartItem.copyWith(quantity: 1);
+      final cartItemToAdd = event.cartItem;
       state.cartItems.add(cartItemToAdd);
       final newCartItems = state.cartItems;
 
-      emit(state.asUpdateCartItems(newCartItems));
+      emit(state.asItemAddToCart(newCartItems));
     } on Exception catch (e) {
       emit(state.asChangeQuantityFailure(e));
+    }
+  }
+
+  double calculateSum(List<CartItem> cartItems) {
+    var sum;
+    for (var cartIem in cartItems) {
+      sum = cartIem.quantity * double.parse(cartIem.item?.cost ?? "0");
+    }
+    return sum ?? 0;
+  }
+   _onCartItemChangeSum(
+      CartItemChangeSum event, Emitter<CartStateDefault> emit) async {
+    try {
+      print(" TOTAL SUM IN BLOC Has been called" );
+      //if (state.cartItems.isEmpty) return;
+      final cartItems = state.cartItems;
+      final totalSum = calculateSum(cartItems);
+
+      print("$totalSum TOTAL SUM IN BLOC");
+
+      emit(state.asSumChanged(totalSum));
+    } on Exception catch (e) {
+      emit(state.asChangeQuantityFailure(e));
+    }
+  }
+
+  Future<void> _onSelectChanged(
+      CartItemSelectChanged event, Emitter<CartStateDefault> emit) async {
+    try {
+      final cartItemIndex = state.cartItems.indexWhere(
+        (cartItem) => cartItem.id == event.cartItemId,
+      );
+
+      if (cartItemIndex < 0 || cartItemIndex >= state.cartItems.length) return;
+
+      final cartItem = await _cartRepository.getCartItem(event.cartItemId);
+
+      if (cartItem == null) return;
+
+      emit(state.copyWith(
+        cartItems: state.cartItems..setAll(cartItemIndex, [cartItem]),
+        selectedCartItemIndex: cartItemIndex,
+      ));
+    } on Exception catch (e) {
+      emit(state.asLoadFailure(e));
     }
   }
 

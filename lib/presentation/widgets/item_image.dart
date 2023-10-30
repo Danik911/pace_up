@@ -16,17 +16,20 @@ class ItemImage extends StatelessWidget {
   final ImageProvider placeholder;
   final Color? tintColor;
   final String? heroTag;
+  final double clipCorners;
 
-  const ItemImage({
-    Key? key,
-    required this.item,
-    required this.size,
-    this.padding = EdgeInsets.zero,
-    this.useHero = true,
-    this.placeholder = AppImages.model_1,
-    this.tintColor,
-    this.heroTag
-  }) : super(key: key);
+  const ItemImage(
+      {Key? key,
+      required this.item,
+      required this.size,
+      this.padding = EdgeInsets.zero,
+      this.useHero = true,
+      this.placeholder = AppImages.model_1,
+      this.tintColor,
+      this.heroTag,
+        this.clipCorners = 0
+      })
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,50 +38,52 @@ class ItemImage extends StatelessWidget {
       child: Hero(
         tag: heroTag.toString(),
         child: AnimatedPadding(
-          duration: const Duration(milliseconds: 600),
-          curve: Curves.easeOutQuint,
-          padding: padding,
-          child: CachedNetworkImage(
-            imageUrl: item?.image ?? "assets/images/1.jpg",
-            useOldImageOnUrlChange: true,
-            maxWidthDiskCache: _cacheMaxSize.width.toInt(),
-            maxHeightDiskCache: _cacheMaxSize.height.toInt(),
-            fadeInDuration: const Duration(milliseconds: 120),
-            fadeOutDuration: const Duration(milliseconds: 120),
-            imageBuilder: (_, image) => Image(
-              image: image,
-              width: size.width,
-              height: size.height,
-              alignment: Alignment.center,
-              color: tintColor,
-              fit: BoxFit.fill,
-            ),
-            placeholder: (_, __) => Image(
-              image: placeholder,
-              width: size.width,
-              height: size.height,
-              alignment: Alignment.bottomCenter,
-              color: Colors.black12,
-              fit: BoxFit.contain,
-            ),
-            errorWidget: (_, __, ___) => Stack(
-              alignment: Alignment.center,
-              children: [
-                Image(
+            duration: const Duration(milliseconds: 600),
+            curve: Curves.easeOutQuint,
+            padding: padding,
+            child: ClipRRect(
+             borderRadius: BorderRadius.circular(clipCorners),
+              child: CachedNetworkImage(
+                imageUrl: item?.image ?? "assets/images/1.jpg",
+                useOldImageOnUrlChange: true,
+                maxWidthDiskCache: _cacheMaxSize.width.toInt(),
+                maxHeightDiskCache: _cacheMaxSize.height.toInt(),
+                fadeInDuration: const Duration(milliseconds: 120),
+                fadeOutDuration: const Duration(milliseconds: 120),
+                imageBuilder: (_, image) => Image(
+                  image: image,
+                  width: size.width,
+                  height: size.height,
+                  alignment: Alignment.center,
+                  color: tintColor,
+                  fit: BoxFit.fill,
+                ),
+                placeholder: (_, __) => Image(
                   image: placeholder,
                   width: size.width,
                   height: size.height,
+                  alignment: Alignment.bottomCenter,
                   color: Colors.black12,
+                  fit: BoxFit.contain,
                 ),
-                Icon(
-                  Icons.warning_amber_rounded,
-                  size: size.width * 0.3,
-                  color: Colors.black26,
+                errorWidget: (_, __, ___) => Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image(
+                      image: placeholder,
+                      width: size.width,
+                      height: size.height,
+                      color: Colors.black12,
+                    ),
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      size: size.width * 0.3,
+                      color: Colors.black26,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
+            )),
       ),
     );
   }

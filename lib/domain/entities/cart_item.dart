@@ -18,13 +18,26 @@ class CartItem {
         item: item ?? this.item);
   }
 
+
+
   @override
   bool operator ==(Object other) => other is CartItem && other.id == id;
 
   @override
   int get hashCode => id.hashCode;
 
+
   Map<String, dynamic> toMap() {
     return {'quantity': quantity, 'product_id': item?.id};
+  }
+}
+
+extension CalculateSum on List<CartItem> {
+  double  calculate(List<CartItem> cartItems)  {
+  var sum;
+  for (var cartIem in this) {
+  sum = cartIem.quantity * double.parse(cartIem.item?.cost ?? "0");
+  }
+  return sum ?? 0;
   }
 }

@@ -8,25 +8,38 @@ class _CartList extends StatefulWidget {
 }
 
 class _CartListState extends State<_CartList> {
+  late PageController _pageController;
   static const double _endReachedThreshold = 200;
   final GlobalKey<NestedScrollViewState> _scrollKey = GlobalKey();
 
   CartBloc get cartBloc => context.read<CartBloc>();
 
-
   @override
   void initState() {
     super.initState();
     scheduleMicrotask(() {
+      //cartBloc.add(const CartItemChangeSum());
       cartBloc.add(const CartItemLoadStarted());
       _scrollKey.currentState?.innerController.addListener(_onScroll);
     });
   }
 
   @override
+  void didChangeDependencies() {
+    final pageIndex = cartBloc.state.selectedCartItemIndex;
+
+    _pageController = PageController(
+      initialPage: pageIndex,
+    );
+
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     _scrollKey.currentState?.innerController.dispose();
     _scrollKey.currentState?.dispose();
+    _pageController.dispose();
 
     super.dispose();
   }
@@ -52,33 +65,43 @@ class _CartListState extends State<_CartList> {
         .firstWhere((e) => e.status != CartStateStatus.loading);
   }
 
-  void _onDecreaseQuantity(CartItem cartItem) async {
+  _onDecreaseQuantity(CartItem cartItem) async {
     cartBloc.add(CartItemDecrease(cartItem));
   }
 
-  void _onIncreaseQuantity(CartItem cartItem) async {
+  _onIncreaseQuantity(CartItem cartItem) async {
     cartBloc.add(CartItemIncrease(cartItem));
+  }
+
+  _onUpdateSum() {
+    cartBloc.add(const CartItemChangeSum());
   }
 
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
       key: _scrollKey,
-      headerSliverBuilder: (_, __) => [
-        MainSliverAppBar(
-          context: context,
-        ),
+      headerSliverBuilder: (_, __) =>
+      [
+        MainSliverAppBar(context: context, false, "Cost ${cartBloc.state.sum}"),
       ],
       body: CartItemStateStatusSelector((status) {
         switch (status) {
           case CartStateStatus.loading:
             return _buildLoading();
 
+          case CartStateStatus.deleteItemSuccess:
           case CartStateStatus.loadSuccess:
           case CartStateStatus.loadMoreSuccess:
           case CartStateStatus.loadingMore:
+          case CartStateStatus.addItemSuccess:
           case CartStateStatus.increaseQuantitySuccess:
+          case CartStateStatus.decreaseQuantitySuccess:
             return _buildList();
+
+          case CartStateStatus.sumUpdated:
+            return MainSliverAppBar(
+                context: context, false, "Cost ${cartBloc.state.sum}");
 
           case CartStateStatus.loadFailure:
           case CartStateStatus.loadMoreFailure:
@@ -104,16 +127,23 @@ class _CartListState extends State<_CartList> {
         SliverPadding(
           padding: const EdgeInsets.all(28),
           sliver: NumberOfCartItemsSelector((numberOfItems) {
+            print("${numberOfItems} Number of items IN LIST");
             return SliverList(
               delegate: SliverChildBuilderDelegate(
-                (_, index) {
-                  return CartItemSelector(index, (cartItem, _) {
+                    (_, index) {
+                  return CartItemSelector(index, (cartItem) {
                     return CartItemCard(
-                        key: ValueKey(cartBloc.state.quantity),
-                        heroTag: "cart_list$index",
-                        cartItem,
-                        increaseQuantity: () => _onIncreaseQuantity(cartItem),
-                        decreaseQuantity: () => _onDecreaseQuantity(cartItem));
+                      key: ValueKey(cartBloc.state.quantity),
+                      heroTag: "cart_list$index",
+                      cartItem,
+                      increaseQuantity: () => _onIncreaseQuantity(cartItem),
+                      decreaseQuantity: () =>
+                      [
+                        _onDecreaseQuantity(cartItem),
+                        _onUpdateSum()
+                      ],
+
+                    );
                   });
                 },
                 childCount: numberOfItems,

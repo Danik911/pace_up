@@ -68,6 +68,8 @@ class _ItemsGridState extends State<_ItemsGrid> {
       [
         MainSliverAppBar(
           context: context,
+          true,
+          "Items"
         ),
       ],
       body: ItemStateStatusSelector((status) {

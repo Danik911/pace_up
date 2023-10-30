@@ -16,6 +16,7 @@ enum CartStateStatus {
   decreaseQuantitySuccess,
   changeQuantityFailure,
   canLoadMore,
+  sumUpdated
 }
 
 abstract class CartState extends Equatable {
@@ -31,6 +32,7 @@ class CartStateDefault extends CartState {
   final bool canLoadMore;
   final int page;
   final Map<String, int> quantity;
+  final double sum;
 
   CartItem get selectedCartItem => cartItems[selectedCartItemIndex];
 
@@ -41,7 +43,8 @@ class CartStateDefault extends CartState {
       this.error,
       this.canLoadMore = true,
       this.page = 1,
-      this.quantity = const {}});
+      this.quantity = const {},
+      this.sum = 0});
 
   CartStateDefault.initial() : this._(cartItems: []);
 
@@ -58,9 +61,12 @@ class CartStateDefault extends CartState {
     );
   }
 
-  CartStateDefault asIncreaseQuantitySuccess(Map<String, int> quantity) {
+  CartStateDefault asIncreaseQuantitySuccess(
+      Map<String, int> quantity) {
     return copyWith(
-        status: CartStateStatus.increaseQuantitySuccess, quantity: quantity);
+        status: CartStateStatus.increaseQuantitySuccess,
+        quantity: quantity,
+        );
   }
 
   CartStateDefault asDecreaseQuantitySuccess(Map<String, int> quantity) {
@@ -75,7 +81,14 @@ class CartStateDefault extends CartState {
     );
   }
 
-  CartStateDefault asUpdateCartItems(List<CartItem> cartItems) {
+  CartStateDefault asItemDelete(List<CartItem> cartItems) {
+    return copyWith(
+      status: CartStateStatus.deleteItemSuccess,
+      cartItems: cartItems,
+    );
+  }
+
+  CartStateDefault asItemAddToCart(List<CartItem> cartItems) {
     return copyWith(
       status: CartStateStatus.addItemSuccess,
       cartItems: cartItems,
@@ -100,23 +113,30 @@ class CartStateDefault extends CartState {
     );
   }
 
-  CartStateDefault copyWith(
-      {CartStateStatus? status,
-      List<CartItem>? cartItems,
-      int? selectedCartItemIndex,
-      Exception? error,
-      Map<String, int>? quantity}) {
+  CartStateDefault asSumChanged(double sum) {
+    return copyWith(status: CartStateStatus.sumUpdated, sum: sum, cartItems: cartItems);
+  }
+
+  CartStateDefault copyWith({
+    CartStateStatus? status,
+    List<CartItem>? cartItems,
+    int? selectedCartItemIndex,
+    Exception? error,
+    Map<String, int>? quantity,
+    double? sum,
+  }) {
     return CartStateDefault._(
         status: status ?? this.status,
         cartItems: cartItems ?? this.cartItems,
         selectedCartItemIndex:
             selectedCartItemIndex ?? this.selectedCartItemIndex,
         error: error ?? this.error,
-        quantity: quantity ?? this.quantity);
+        quantity: quantity ?? this.quantity,
+        sum: sum ?? this.sum);
   }
 
   @override
-  List<Object> get props => [status, cartItems, quantity];
+  List<Object> get props => [status, cartItems, quantity, sum];
 }
 
 /*

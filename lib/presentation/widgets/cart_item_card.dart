@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pace_up/domain/entities/cart_item.dart';
 import 'item_image.dart';
 
@@ -9,23 +8,30 @@ class CartItemCard extends StatefulWidget {
   final void Function() increaseQuantity;
   final String? heroTag;
 
-  const CartItemCard(this.cartItem,
-      {super.key, this.decreaseQuantity, required this.increaseQuantity, this.heroTag});
+  // final int index;
 
+  const CartItemCard(
+    this.cartItem, {
+    super.key,
+    this.decreaseQuantity,
+    required this.increaseQuantity,
+    this.heroTag,
 
+  });
 
   @override
   State<CartItemCard> createState() => _CartItemState();
 }
 
 class _CartItemState extends State<CartItemCard> {
- late CartItem _cartItem;
+  late CartItem _cartItem;
 
   @override
   Widget build(BuildContext context) {
-   _cartItem = widget.cartItem;
+    _cartItem = widget.cartItem;
     return Row(
       children: [
+        //Flexible(child: )
         Stack(
           children: [
             Container(
@@ -33,22 +39,19 @@ class _CartItemState extends State<CartItemCard> {
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Colors.greenAccent[200],
                   borderRadius: BorderRadius.circular(26)),
+              child: Center(
+                  child: ItemImage(
+                clipCorners: 24,
+                heroTag: widget.heroTag,
+                item: _cartItem.item,
+                size: Size(120, 120),
+              )),
             ),
-            Positioned(
-                right: 0,
-                bottom: 40,
-                child: Center(
-                    child: ItemImage(
-                  heroTag: widget.heroTag,
-                  item: _cartItem.item,
-                  size: Size(25, 25),
-                )))
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 24),
+        Flexible(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
